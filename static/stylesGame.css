@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    color: white;
+}
+
+
+.game-container {
+    width: 70%;
+    height: 90%;
+    background-image: url(../assets/bg/backgroud.png);
+}
+
+.game-container .list-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.game-container .list-group li{
+    list-style-type: none;
+
+}
+
