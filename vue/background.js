@@ -1,4 +1,4 @@
-let bg = "../assets/bg/backgroud.png";
+// let bg = "../assets/bg/backgroud.png";
 const navBar = ["Pause", "Times:", "Scores:", "Lives:"];
 
 export class Background {
