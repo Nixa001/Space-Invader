@@ -1,6 +1,8 @@
 let bg = "../assets/bg/backgroud.png";
 const navBar = ["Pause", "Times:", "Scores:", "Lives:"];
 
+/* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
+correspondants. */
 export class Background {
   constructor() {
     console.log("Hello world");
