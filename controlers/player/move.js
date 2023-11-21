@@ -1,4 +1,5 @@
-export function move(player, keys) {
+export function move(player, keys, elem) {
+    let dif = elem.getBoundingClientRect()/4;
   if (keys["ArrowRight"] && keys["ArrowUp"]) {
     player.moveUp();
     player.moveRight();
@@ -11,9 +12,9 @@ export function move(player, keys) {
   } else if (keys["ArrowLeft"] && keys["ArrowDown"]) {
     player.moveLeft();
     player.moveDown();
-  } else if (keys["ArrowRight"] && player.x < window.innerWidth - 245) {
+  } else if (keys["ArrowRight"] && player.x < elem.getBoundingClientRect().left) {
     player.moveRight();
-  } else if (keys["ArrowLeft"]) {
+  } else if (keys["ArrowLeft"] && player.x > elem.getBoundingClientRect().right) {
     player.moveLeft();
   } else if (keys["ArrowUp"]) {
     player.moveUp();

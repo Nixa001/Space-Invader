@@ -23,5 +23,5 @@ document.addEventListener("keydown", (event) => {
   });
 
 setInterval(() => {
-  move(player, keys);
+  move(player, keys, elem);
 }, 20);

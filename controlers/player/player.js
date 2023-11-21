@@ -12,19 +12,21 @@ Players. */
     elem.appendChild(this.player_img);
     // Initialisation de la position x du joueur
     this.player_img.style.position = "absolute";
-    this.setX(window.innerWidth / 2);
-    this.setY(window.innerHeight - 145);
-    this.SPEED = 3;
+    this.setX(elem.getBoundingClientRect().width / 2);
+    this.setY(window.innerHeight - 200);
+    
+    this.SPEED = 17;
   }
+
 
   setX(x) {
     this.x = x;
-    this.player_img.style.left = `${this.x}px`;
+    this.player_img.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
   }
 
   setY(y) {
     this.y = y;
-    this.player_img.style.top = `${this.y}px`;
+    this.player_img.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
   }
 
   moveRight() {
