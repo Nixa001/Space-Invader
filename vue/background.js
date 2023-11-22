@@ -1,4 +1,5 @@
-let bg = "../assets/bg/backgroud.png";
+import { Players } from "../controlers/player/player.js";
+
 const navBar = ["Pause", "Times:", "Scores:", "Lives:"];
 
 /* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
@@ -15,15 +16,16 @@ export class Background {
       this.li.className = navBar[i];
       this.li.innerText = navBar[i];
       if (i > 0) {
-          this.span = document.createElement("span");
-          this.span.innerText = 0
-          this.span.id = "id-" + navBar[i];
-          this.li.appendChild(this.span);
-        }
-        this.ul.appendChild(this.li);
+        this.span = document.createElement("span");
+        this.span.innerText = 0;
+        this.span.id = "id-" + navBar[i];
+        this.li.appendChild(this.span);
+      }
+      this.ul.appendChild(this.li);
     }
     this.element.appendChild(this.ul);
     document.body.appendChild(this.element);
+    // new Players(this.element);
   }
 }
 // new Background()
