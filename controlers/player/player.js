@@ -1,4 +1,4 @@
-let myPlayer = "/assets/player/player-1.png";
+let myPlayer = "/assets/player/playerC.gif";
 
 export class Players {
   /* La classe Background crée un conteneur de jeu avec une barre de navigation et initialise la classe
@@ -8,13 +8,14 @@ Players. */
     this.player_img.src = myPlayer;
     this.player_img.id = "player";
     elem.appendChild(this.player_img);
+    this.player_img.style.width = "90px";
+    // Initialisation de la position x du joueur
     this.player_img.style.position = "absolute";
-    this.setX(elem.getBoundingClientRect().width / 2);
+    this.setX(window.innerWidth / 3);
     this.setY(window.innerHeight - 200);
 
-    this.SPEED = 37;
+    this.SPEED = 20;
   }
-
 
   setX(x) {
     this.x = x;
@@ -26,28 +27,35 @@ Players. */
     this.player_img.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
   }
 
-  moveRight() {
-    let difWidth = window.innerWidth - ((window.innerWidth / 100) * 30 + 40)
-    if (this.x + this.player_img.width / 2 < difWidth) {
+  /* Le bloc de code que vous avez fourni définit quatre méthodes : `moveRight`, `moveLeft`, `moveUp` et
+ `moveDown`. Ces méthodes sont utilisées pour déplacer l'image du joueur sur l'écran. */
+  moveRight(elem) {
+    if (
+      this.x + this.SPEED <
+      elem.getBoundingClientRect().width - this.player_img.width
+    ) {
       this.setX(this.x + this.SPEED);
     }
   }
 
   moveLeft() {
-    if (this.x - this.player_img.width > 0) {
+    if (this.x - this.SPEED > 0) {
+    //   this.player_img.style.transform = `translate3d(0, 0, 20px)`;
       this.setX(this.x - this.SPEED);
     }
   }
 
   moveUp() {
-    if (this.y - this.player_img.height > 0) {
+    if (this.y - this.SPEED > 0) {
       this.setY(this.y - this.SPEED);
     }
   }
 
-  moveDown() {
-    let difHeigth = window.innerHeight - (window.innerHeight / 100) * 10 - this.player_img.height
-    if (this.y + this.player_img.height < difHeigth) {
+  moveDown(elem) {
+    if (
+      this.y + this.SPEED <
+      elem.getBoundingClientRect().height - this.player_img.height - this.SPEED
+    ) {
       this.setY(this.y + this.SPEED);
     }
   }
