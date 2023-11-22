@@ -21,3 +21,4 @@ export function move(player, keys, elem) {
     player.moveDown(elem);
   }
 }
+
