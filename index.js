@@ -1,7 +1,7 @@
-import { Enemy } from "../controlers/enemy.js";
-import { move } from "../controlers/player/move.js";
-import { Players } from "../controlers/player/player.js";
-import { Background } from "./background.js";
+import { Enemy } from "./controlers/enemy/enemy.js";
+import { move } from "./controlers/player/move.js";
+import { Players } from "./controlers/player/player.js";
+import { Background } from "/vue/background.js";
 
 new Background();
 const elem = document.querySelector(".game-container");

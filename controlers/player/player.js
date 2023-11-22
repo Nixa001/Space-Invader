@@ -31,7 +31,7 @@ Players. */
  `moveDown`. Ces méthodes sont utilisées pour déplacer l'image du joueur sur l'écran. */
   moveRight(elem) {
     if (
-      this.x + this.SPEED <
+      this.x <
       elem.getBoundingClientRect().width - this.player_img.width
     ) {
       this.setX(this.x + this.SPEED);
@@ -39,7 +39,7 @@ Players. */
   }
 
   moveLeft() {
-    if (this.x - this.SPEED > 0) {
+    if (this.x  > 0) {
     //   this.player_img.style.transform = `translate3d(0, 0, 20px)`;
       this.setX(this.x - this.SPEED);
     }
