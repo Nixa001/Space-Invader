@@ -29,6 +29,11 @@ body {
 .game-container .list-group li {
   list-style-type: none;
 }
+.projectile{
+  background-color: blue;
+  width: 2px;
+  height: 2px;
+}
 .game-container img {
     /* transform: rotate(45deg); */
     /* transition: transform 0.1s ease; */
