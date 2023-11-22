@@ -8,13 +8,13 @@ Players. */
     this.player_img.src = myPlayer;
     this.player_img.id = "player";
     elem.appendChild(this.player_img);
-    this.player_img.style.width = "90px";
+    this.player_img.style.width = "70px";
     // Initialisation de la position x du joueur
     this.player_img.style.position = "absolute";
     this.setX(window.innerWidth / 3);
     this.setY(window.innerHeight - 200);
 
-    this.SPEED = 20;
+    this.SPEED = 15;
   }
 
   setX(x) {

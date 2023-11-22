@@ -9,8 +9,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
-  color: white;
+  background: #000000fb;
+  /* color: white; */
   overflow: hidden;
 }
 
@@ -30,6 +30,6 @@ body {
   list-style-type: none;
 }
 .game-container img {
-    transform: rotate(45deg);
-    transition: transform 0.1s ease;
+    /* transform: rotate(45deg); */
+    /* transition: transform 0.1s ease; */
 }
