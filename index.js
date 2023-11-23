@@ -13,13 +13,9 @@ let j = 0;
 function moveBg() {
   j++;
   document.body.style.backgroundPositionY = j + "px";
+  requestAnimationFrame(moveBg);
 }
-
-setInterval(() => {
-  moveBg();
-}, 30);
-
-j = 0;
+moveBg()
 
 const keys = {
   ArrowLeft: false,
