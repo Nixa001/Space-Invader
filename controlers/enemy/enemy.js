@@ -4,14 +4,15 @@ export class Enemy {
     Players. */
     constructor(elem) {
         let enemy = document.createElement("div");
-        for (let i = 0; i < 10; i++) {
+        enemy.className="enemies"
+        for (let i = 0; i < 40; i++) {
             let num = getRandom();
             let enemy1 = "/assets/enemy/Enemy-" + num + ".png";
             this.enemy_img = document.createElement("img");
             this.enemy_img.src = enemy1;
             this.enemy_img.id = "enemy" + i;
             this.enemy_img.className = "enemy" + i;
-            this.enemy_img.style.width = "60px";
+            this.enemy_img.style.width = "50px";
             // Initialisation de la position x du joueur
             // this.enemy_img.style.position = "relative";
             this.enemy_img.style.margin = "5px";

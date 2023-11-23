@@ -9,15 +9,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000000fb;
+  background: #000;
   /* color: white; */
   overflow: hidden;
+  background-image: url(../assets/bg/backgroud.png);
 }
 
 .game-container {
   width: 70%;
   height: 90%;
-  background-image: url(../assets/bg/backgroud.png);
+  border: 1px solid rgba(255, 255, 255, 0.041)
 }
 
 .game-container .list-group {
@@ -37,4 +38,9 @@ body {
 .game-container img {
     /* transform: rotate(45deg); */
     /* transition: transform 0.1s ease; */
+}
+.enemies{
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(10, 80px);
 }

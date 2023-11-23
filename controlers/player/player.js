@@ -33,7 +33,7 @@ Players. */
   }
 
   moveUp() {
-    if (this.y - this.SPEED > 0) {
+    if (this.y - this.SPEED > this.el.height * 7) {
       this.setY(this.y - this.SPEED);
     }
   }

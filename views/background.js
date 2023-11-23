@@ -28,4 +28,3 @@ export class Background {
     // new Players(this.element);
   }
 }
-// new Background()

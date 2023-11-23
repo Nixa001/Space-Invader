@@ -8,6 +8,17 @@ const elem = document.querySelector(".game-container");
 const player = new Players(elem);
 new Enemy(elem);
 
+// let j  = 0;
+// function moveBg(){
+//   j++;
+//   document.body.style.backgroundPositionY = j + "px";
+  
+// }
+// setInterval(()=>{
+//   moveBg()
+// },30)
+// j = 0;
+
 const keys = {
   ArrowLeft: false,
   ArrowRight: false,
