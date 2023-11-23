@@ -25,6 +25,8 @@ export class Enemy {
         this.SPEED = 20;
     }
 
+   /* Les méthodes `setX(x)` et `setY(y)` sont utilisées pour définir la position de l'objet ennemi sur
+   l'écran de jeu. */
     setX(x) {
         this.x = x;
         this.enemy_img.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;

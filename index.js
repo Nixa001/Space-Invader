@@ -1,6 +1,7 @@
 import { Enemy } from "./controlers/enemy/enemy.js";
 import { move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
+import { Bullet_Player } from "./controlers/player/projectile.js";
 import { Background } from "./views/background.js";
 new Background();
 const elem = document.querySelector(".game-container");

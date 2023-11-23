@@ -46,4 +46,17 @@ Players. */
       this.setY(this.y + this.SPEED);
     }
   }
+
+  fire({creteBullet}){
+    if (this.canfire) {
+        this.canfire = false;
+        creteBullet({
+            x: this.x + this.SPEED_IMAGE_WIDTH / 2,
+            y: this.y,
+        });
+        setTimeout(() => {
+            this.canfire = true
+        }, 1000);
+    }
+  }
 }
