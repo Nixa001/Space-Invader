@@ -5,8 +5,8 @@ export class Enemy {
     constructor(elem) {
         let enemy = document.createElement("div");
         enemy.className="enemies"
-        for (let i = 0; i < 40; i++) {
-            let num = getRandom();
+        let num = getRandom();
+        for (let i = 0; i < 60; i++) {
             let enemy1 = "/assets/enemy/Enemy-" + num + ".png";
             this.enemy_img = document.createElement("img");
             this.enemy_img.src = enemy1;
@@ -15,7 +15,7 @@ export class Enemy {
             this.enemy_img.style.width = "50px";
             // Initialisation de la position x du joueur
             // this.enemy_img.style.position = "relative";
-            this.enemy_img.style.margin = "5px";
+            // this.enemy_img.style.margin = "10px";
             enemy.appendChild(this.enemy_img)
         }
         elem.appendChild(enemy);

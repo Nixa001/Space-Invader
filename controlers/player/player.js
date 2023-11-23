@@ -8,7 +8,7 @@ Players. */
   constructor(elem) {
     super("img", "player", elem);
     this.el.src = myPlayer;
-    this.el.style.width = "70px";
+    this.el.style.width = "90px";
     // Initialisation de la position x du joueur
     this.el.style.position = "absolute";
     this.setX(window.innerWidth / 3);
