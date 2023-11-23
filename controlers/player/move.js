@@ -19,5 +19,20 @@ export function move(player, keys, elem) {
     player.moveUp();
   } else if (keys["ArrowDown"]) {
     player.moveDown(elem);
+  }else if (keys["space"]){
+    player.fire({
+        creteBullet,
+    })
   }
+}
+
+const bullets = []
+const creteBullet = (x, y) => {
+  bullets.push(
+    new Bullet_Player(
+      x,
+      y,
+      elem
+    )
+  )
 }
