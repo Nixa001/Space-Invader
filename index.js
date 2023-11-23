@@ -2,21 +2,22 @@ import { Enemy } from "./controlers/enemy/enemy.js";
 import { move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
-
 new Background();
 const elem = document.querySelector(".game-container");
 const player = new Players(elem);
 new Enemy(elem);
 
-let j  = 0;
-function moveBg(){
+let j = 0;
+
+function moveBg() {
   j++;
   document.body.style.backgroundPositionY = j + "px";
-  
 }
-setInterval(()=>{
-  moveBg()
-},30)
+
+setInterval(() => {
+  moveBg();
+}, 30);
+
 j = 0;
 
 const keys = {
@@ -35,7 +36,9 @@ document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
 
-// requestAnimationFrame(move(player, keys, elem),20)
-setInterval(() => {
+function animate() {
   move(player, keys, elem);
-}, 20);
+  requestAnimationFrame(animate);
+}
+
+animate();
