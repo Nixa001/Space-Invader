@@ -1,6 +1,6 @@
 import { Entity } from "../../utils/entity/entity.js";
 
-let myPlayer = "/assets/player/playerC.gif";
+let myPlayer = "/assets/player/player-3.png";
 
 export class Players extends Entity {
   /* La classe Background crée un conteneur de jeu avec une barre de navigation et initialise la classe
@@ -8,7 +8,7 @@ Players. */
   constructor(elem) {
     super("img", "player", elem);
     this.el.src = myPlayer;
-    this.el.style.width = "70px";
+    // this.el.style.width = "70px";
     // Initialisation de la position x du joueur
     this.el.style.position = "absolute";
     this.setX(window.innerWidth / 2);
@@ -46,16 +46,4 @@ Players. */
     }
   }
 
-  fire(creteBullet, canfire){
-    if (canfire) {
-        canfire = false;
-        creteBullet({
-            x: this.x + this.SPEED_IMAGE_WIDTH / 2,
-            y: this.y,
-        });
-        setTimeout(() => {
-            canfire = true
-        }, 1000);
-    }
-  }
 }

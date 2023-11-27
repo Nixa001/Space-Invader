@@ -1,4 +1,4 @@
-import { Enemy } from "./controlers/enemy/enemy.js";
+// import { Enemy } from "./controlers/enemy/enemy.js";
 import { move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
@@ -6,7 +6,7 @@ import { Background } from "./views/background.js";
 new Background();
 const elem = document.querySelector(".game-container");
 const player = new Players(elem);
-new Enemy(elem);
+// new Enemy(elem);
 
 const keys = {
   ArrowLeft: false,
@@ -24,9 +24,15 @@ document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
 
-setInterval(() => {
-  move(player, keys, elem, player.x, player.y);
-}, 20);
+// setInterval(() => {
+//   move(player, keys, elem, player.x, player.y);
+// }, 20);
 
+const m = function () {
+  move(player, keys, elem, player.x, player.y);
+  requestAnimationFrame(m);
+};
+
+m();
 
 
