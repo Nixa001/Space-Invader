@@ -11,10 +11,9 @@ Players. */
     this.el.style.width = "70px";
     // Initialisation de la position x du joueur
     this.el.style.position = "absolute";
-    this.setX(window.innerWidth / 3);
+    this.setX(window.innerWidth / 2);
     this.setY(window.innerHeight - 200);
-
-    this.SPEED = 15;
+    this.SPEED = 9;
   }
 
   /* Le bloc de code que vous avez fourni définit quatre méthodes : `moveRight`, `moveLeft`, `moveUp` et
@@ -47,15 +46,15 @@ Players. */
     }
   }
 
-  fire({creteBullet}){
-    if (this.canfire) {
-        this.canfire = false;
+  fire(creteBullet, canfire){
+    if (canfire) {
+        canfire = false;
         creteBullet({
             x: this.x + this.SPEED_IMAGE_WIDTH / 2,
             y: this.y,
         });
         setTimeout(() => {
-            this.canfire = true
+            canfire = true
         }, 1000);
     }
   }

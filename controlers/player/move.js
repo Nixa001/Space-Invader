@@ -1,4 +1,9 @@
-export function move(player, keys, elem) {
+import { Bullet } from "./projectile.js";
+
+const bullets = [];
+let interval = true;
+
+export function move(player, keys, elem, x, y) {
   if (keys["ArrowRight"] && keys["ArrowUp"]) {
     player.moveUp(elem);
     player.moveRight(elem);
@@ -18,21 +23,22 @@ export function move(player, keys, elem) {
   } else if (keys["ArrowUp"]) {
     player.moveUp();
   } else if (keys["ArrowDown"]) {
+    // player.moveDown(elem);
     player.moveDown(elem);
-  }else if (keys["space"]){
-    player.fire({
-        creteBullet,
-    })
   }
+
+  if (keys[" "] && interval) {
+    interval = false;
+    createBullet(x, y, elem);
+    setTimeout(() => {
+      interval = true;
+    }, 1000);
+  }
+
+  // Mettez à jour les balles existantes
+  bullets.forEach((bullet) => bullet.update());
 }
 
-const bullets = []
-const creteBullet = (x, y) => {
-  bullets.push(
-    new Bullet_Player(
-      x,
-      y,
-      elem
-    )
-  )
+function createBullet(x, y, elem) {
+  bullets.push(new Bullet(x, y, elem));
 }
