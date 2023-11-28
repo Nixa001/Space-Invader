@@ -19,7 +19,6 @@ body {
   height: 100%;
   background-image: url(../assets/bg/backgroud.png);
   display: flex;
-  
 }
 
 .game-container .player {
@@ -35,22 +34,30 @@ body {
 .game-container .list-group li {
   list-style-type: none;
 }
-.projectile{
+.projectile {
   background-color: blue;
   width: 2px;
   height: 2px;
 }
 .game-container img {
-    /* transform: rotate(45deg); */
-    /* transition: transform 0.1s ease; */
+  /* transform: rotate(45deg); */
+  /* transition: transform 0.1s ease; */
 }
-.bullet{
+.bullet {
   color: red;
 }
 
-.bullet{
+.bullet {
   position: absolute;
   left: 15px;
   width: 40px;
   /* height: 100px; */
+}
+
+.enemy {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 30px;
+  left: 20%;
 }

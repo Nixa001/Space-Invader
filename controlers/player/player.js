@@ -45,5 +45,4 @@ Players. */
       this.setY(this.y + this.SPEED);
     }
   }
-
 }

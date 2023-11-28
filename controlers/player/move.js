@@ -1,29 +1,18 @@
+import { Audio } from "../audios/audio.js";
 import { Bullet } from "./projectile.js";
 
-const bullets = [];
+export const bullets = [];
 let interval = true;
 
 export function move(player, keys, elem, x, y) {
-  if (keys["ArrowRight"] && keys["ArrowUp"]) {
-    player.moveUp(elem);
-    player.moveRight(elem);
-  } else if (keys["ArrowRight"] && keys["ArrowDown"]) {
-    player.moveRight(elem);
-    player.moveDown(elem);
-  } else if (keys["ArrowLeft"] && keys["ArrowUp"]) {
-    player.moveUp();
-    player.moveLeft();
-  } else if (keys["ArrowLeft"] && keys["ArrowDown"]) {
-    player.moveLeft();
-    player.moveDown(elem);
-  } else if (keys["ArrowRight"]) {
+  if (keys["ArrowRight"]) {
     player.moveRight(elem);
   } else if (keys["ArrowLeft"]) {
     player.moveLeft();
-  } else if (keys["ArrowUp"]) {
+  }
+  if (keys["ArrowUp"]) {
     player.moveUp();
   } else if (keys["ArrowDown"]) {
-    // player.moveDown(elem);
     player.moveDown(elem);
   }
 
@@ -35,26 +24,33 @@ export function move(player, keys, elem, x, y) {
     }, 1000);
   }
 
-  
   // Mettez à jour les balles existantes
   bullets.forEach((bullet) => {
-    bullet.update()
+    bullet.update();
     if (bullet.y < 0) {
       bullet.remove();
       bullets.splice(bullets.indexOf(bullet), 1);
       return false;
-  }
-});
+    }
+  });
 }
+
+const bul = (bullets) => bullets;
+console.log(bul);
+
+const son = '/assets/audio/Player/Game_assets_laser.wav'
+
 
 /**
- * La fonction crée un nouvel objet puce et l'ajoute à un tableau.
+ * La fonction crée un objet puce, joue un son et ajoute la puce à un tableau.
  * @param x - La coordonnée x de la position de départ de la balle.
- * @param y - Le paramètre "y" représente la position verticale de la puce sur l'écran.
- * @param elem - Le paramètre `elem` est l'élément auquel la puce sera associée. Il peut s'agir d'un
- * élément HTML ou de tout autre objet représentant la puce dans votre code.
+ * @param y - Le paramètre « y » représente la position verticale de la puce sur l'écran.
+ * @param elem - Le paramètre "elem" représente l'élément ou l'objet auquel la puce est associée. Il
+ * peut s'agir d'une image, d'un sprite ou de toute autre représentation visuelle de la balle.
  */
 function createBullet(x, y, elem) {
-  bullets.push(new Bullet(x, y, elem));
+  const bullet = new Bullet(x, y, elem);
+  const audio = new Audio(elem, son);
+  audio.play(); 
+  bullets.push(bullet);
 }
-

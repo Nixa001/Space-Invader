@@ -1,42 +1,36 @@
+import { Entity } from "../../utils/entity/entity.js";
+let enemy = "/assets/enemy/Enemy-1.png";
 
-export class Enemy {
-    /* La classe Background crée un conteneur de jeu avec une barre de navigation et initialise la classe
-    Players. */
-    constructor(elem) {
-        let enemy = document.createElement("div");
-        let num = getRandom();
-        for (let i = 0; i < 10; i++) {
-            let enemy1 = "/assets/enemy/Enemy-" + num + ".png";
-            this.enemy_img = document.createElement("img");
-            this.enemy_img.src = enemy1;
-            this.enemy_img.id = "enemy" + i;
-            this.enemy_img.className = "enemy" + i;
-            this.enemy_img.style.width = "50px";
-            // Initialisation de la position x du joueur
-            // this.enemy_img.style.position = "relative";
-            this.enemy_img.style.margin = "7px";
-            enemy.appendChild(this.enemy_img)
-        }
-        elem.appendChild(enemy);
-        // this.setX(window.innerWidth / 3);
-        // this.setY(window.innerHeight - elem.innerHeight);
+export class Enemy extends Entity {
+  constructor(x, y, elem, getEnemis, removeEnimy, removeBullet) {
+    super("img", "enemy", elem);
+    this.el.src = enemy;
+    this.getEnemis = getEnemis;
+    this.removeEnimy = removeEnimy;
+    this.removeBullet = removeBullet;
+    this.hit = false;
+    /* Les méthodes `setX(x)` et `setY(y)` sont utilisées pour définir la position de l'objet ennemi sur
+       l'écran de jeu. */
+    this.setX(x);
+    this.setY(y);
+    this.SPEED = 0.;
+  }
 
-        this.SPEED = 20;
+  update() {
+    if (!this.hit) {
+      this.setY(this.y + this.SPEED);
+
+      const bullet = this.getEnemis(this);
+      if (bullet && !bullet.isAlien) {
+        this.removeEnimy(this);
+        this.removeBullet(bullet);
+        //   this.addToScore(POINTS_PER_KILL);
+        this.hit = true;
     }
-
-   /* Les méthodes `setX(x)` et `setY(y)` sont utilisées pour définir la position de l'objet ennemi sur
-   l'écran de jeu. */
-    setX(x) {
-        this.x = x;
-        this.enemy_img.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
     }
-
-    setY(y) {
-        this.y = y;
-        this.enemy_img.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
-    }
-
+  }
 }
+
 function getRandom() {
-    return Math.floor(Math.random() * (7 - 1) + 1);
+  return Math.floor(Math.random() * (7 - 1) + 1);
 }
