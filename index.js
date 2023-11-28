@@ -42,22 +42,26 @@ const getEnemis = (enemy) => {
   return null;
 };
 
-for (let i = 0; i < 12; i++) {
-  for (let j = 0; j < 4; j++) {
-    const enemy = new Enemy(
-      i * 60,
-       j * 60,
-        elem,
-        getEnemis,
-        removeEnimy,
-        removeBullet,
+// affichage des Enemy  --------------------------------
 
-      );
+const numRows = 6; // Nombre de lignes 
+const numCols = 12 ; // Nombre de colonnes 
+let numEnemis = numCols
+for (let i = 0; i < numRows; i++) {
+  for (let j = 1 ; j < numEnemis ; j++){
+    const enemy = new Enemy(
+      (j + i)  * 60, // Ajustement horizontal pour former une pyramide
+      i * 60,
+      elem,
+      getEnemis,
+      removeEnimy,
+      removeBullet
+    );
     enemys.push(enemy);
   }
+  numEnemis = numEnemis - 2;
 }
-
-function moveEnemies() {
+function moveEnemies(){
   enemys.forEach((enemy) => {
     enemy.update();
     if (enemy.y >= window.innerHeight + y) {
@@ -86,8 +90,8 @@ document.addEventListener("keyup", (event) => {
 });
 
 setInterval(() => {
-  updateEnemies();
-  move(player, keys, elem, player.x, player.y);
+  updateEnemies();   
+  move(player, keys , elem, player.x, player.y);
   // checkPlayerEnemyCollisions()
 }, 16);
 
