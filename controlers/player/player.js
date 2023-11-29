@@ -1,6 +1,6 @@
 import { Entity } from "../../utils/entity/entity.js";
 
-let myPlayer = "/assets/player/player-3.png";
+let myPlayer = "/assets/player/playerC.gif";
 
 export class Players extends Entity {
   /* La classe Background crée un conteneur de jeu avec une barre de navigation et initialise la classe

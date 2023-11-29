@@ -85,14 +85,25 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-
-setInterval(() => {
-  time = time + 1;
+let j = 0
+function moveBg() {
+  j++;
+  document.body.style.backgroundPositionY = j + "px";
+  requestAnimationFrame(moveBg);
+}
+function animate() {
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
-  // checkPlayerEnemyCollisions()
-}, 16);
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate)
+// setInterval(() => {
+//   updateEnemies();
+//   move(player, keys, elem, player.x, player.y);
+//   // checkPlayerEnemyCollisions()
+// }, 16);
 
+// moveBg()
 const collision = (entity1, entity2) => {
   /**
    * La méthode Element.getBoundingClientRect() retourne
@@ -116,7 +127,8 @@ const collision = (entity1, entity2) => {
 // Fonction pour mettre à jour les ennemis et vérifier les collisions
 function updateEnemies() {
   enemys.forEach((enemy) => {
-    enemy.update();
+    enemy.moveEnemy();
+
     // Vérifier la collision avec le joueur
     if (collision(player, enemy)) {
       const playerDest = "/assets/player/playerDestroy.gif";
@@ -146,8 +158,6 @@ function updateEnemies() {
       }, 16)
     }
     if (bullet && !bullet.isAlien) {
-      console.log("Collision avec la balle");
-      // Gérer la collision avec la balle ici (par exemple, supprimer l'ennemi, la balle et augmenter le score)
       enemys.splice(enemys.indexOf(enemy), 1);
       bullet.remove();
 
