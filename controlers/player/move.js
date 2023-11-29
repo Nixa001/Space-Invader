@@ -21,7 +21,7 @@ export function move(player, keys, elem, x, y) {
     createBullet(x, y, elem);
     setTimeout(() => {
       interval = true;
-    }, 100);
+    }, 300);
   }
   
   // Mettez à jour les balles existantes

@@ -3,6 +3,7 @@ import { bullets, move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
+import { getRandom } from "./utils/random/random.js";
 
 export let time = 0;
 new Background();
@@ -44,11 +45,13 @@ const getEnemis = (enemy) => {
   }
   return null;
 };
+function callEnemy() {
 
-for (let i = 0; i < 13; i++) {
-  for (let j = 0; j < 4; j++) {
+  // for (let i = 0; i < 13; i++) {
+  const numRandom = getRandom(1, 2)
+  for (let j = 0; j < numRandom; j++) {
     const enemy = new Enemy(
-      i * 60,
+      j * 60,
       j * 60,
       elem,
       getEnemis,
@@ -56,8 +59,14 @@ for (let i = 0; i < 13; i++) {
       removeBullet
     );
     enemys.push(enemy);
+    // }
   }
 }
+callEnemy()
+
+setInterval(() => {
+  callEnemy()
+}, 1000);
 
 function moveEnemies() {
   enemys.forEach((enemy) => {
@@ -147,9 +156,9 @@ function updateEnemies() {
     const bullet = getEnemis(enemy);
     if (enemys.length === 0) {
       setTimeout(() => {
-      const playAgain = window.confirm(
-        "Partie terminer . Voulez-vous rejouer ?"
-      );
+        const playAgain = window.confirm(
+          "Partie terminer . Voulez-vous rejouer ?"
+        );
       }, 16)
     }
     if (bullet && !bullet.isAlien) {
@@ -160,7 +169,7 @@ function updateEnemies() {
     }
 
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y) {
+    if (enemy.y >= window.innerHeight + y + 200) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
       console.log("Ennemi sorti de l'écran");
