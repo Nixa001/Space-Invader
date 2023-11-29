@@ -45,10 +45,17 @@ const getEnemis = (enemy) => {
   }
   return null;
 };
-function callEnemy() {
+
+let min = 4
+let max = 7
+function callEnemy(min, max) {
 
   // for (let i = 0; i < 13; i++) {
-  const numRandom = getRandom(1, 2)
+  if (max < 10) {
+    min++
+    max++
+  }
+  const numRandom = getRandom(min, max)
   for (let j = 0; j < numRandom; j++) {
     const enemy = new Enemy(
       j * 60,
@@ -62,11 +69,11 @@ function callEnemy() {
     // }
   }
 }
-callEnemy()
+callEnemy(4, 7)
 
 setInterval(() => {
-  callEnemy()
-}, 1000);
+  callEnemy(min, max)
+}, 1500);
 
 function moveEnemies() {
   enemys.forEach((enemy) => {
@@ -89,17 +96,15 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-let j = 0
-function moveBg() {
-  j++;
-  document.body.style.backgroundPositionY = j + "px";
-  requestAnimationFrame(moveBg);
-}
+let k = 0
 function animate() {
+  k++
+  elem.style.backgroundPositionY = k + "px";
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
   requestAnimationFrame(animate);
 }
+
 requestAnimationFrame(animate)
 // setInterval(() => {
 //   updateEnemies();
@@ -176,7 +181,6 @@ function updateEnemies() {
     }
   });
 }
-
 // Fonction de réinitialisation du jeu
 function resetGame() {
   // Remettre le joueur à sa position de départ

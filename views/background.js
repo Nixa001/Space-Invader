@@ -19,6 +19,7 @@ export class Background {
         this.span = document.createElement("span");
         this.span.innerText = 0;
         this.span.id = "id-" + navBar[i];
+        this.span.className = "name-" + navBar[i];
         this.li.appendChild(this.span);
       }
       if (i === 1) {

@@ -6,6 +6,9 @@ const LEFT = "left";
 const RIGHT = "right";
 const direction = [LEFT, RIGHT]
 let num = getRandom(1, 7);
+let levels = 1
+let level = 10
+let speed = 2
 
 export class Enemy extends Entity {
   constructor(x, y, elem, getEnemis, removeEnimy, removeBullet) {
@@ -17,13 +20,17 @@ export class Enemy extends Entity {
     this.removeEnimy = removeEnimy;
     this.removeBullet = removeBullet;
     this.hit = false;
-
-
-    this.setX(getRandom(1,1000));
+    this.setX(getRandom(1, 1000));
     this.setY(y);
-    this.SPEED = 3;
+    if (levels === level) {
+      speed += 0.1
+      level +=10 
+    }
+
+    this.SPEED = speed;
     this.HORIZONTAL_SPEED = 1;
-    this.direction = direction[getRandom(0,2     )];
+    this.direction = direction[getRandom(0, 2)];
+    levels++
   }
 
   moveEnemy() {
