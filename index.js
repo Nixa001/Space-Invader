@@ -3,6 +3,7 @@ import { bullets, move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
+import { getRandom } from "./utils/random/random.js";
 
 export let time = 0;
 new Background();
@@ -44,25 +45,29 @@ const getEnemis = (enemy) => {
   }
   return null;
 };
+function callEnemy() {
 
-// affichage des Enemy  --------------------------------
-const numRows = 6; // Nombre de lignes 
-const numCols = 12 ; // Nombre de colonnes 
-let numEnemis = numCols
-for (let i = 0; i < numRows; i++) {
-  for (let j = 1 ; j < numEnemis ; j++){
+  // for (let i = 0; i < 13; i++) {
+  const numRandom = getRandom(1, 2)
+  for (let j = 0; j < numRandom; j++) {
     const enemy = new Enemy(
-      (j + i)  * 60, // Ajustement horizontal pour former une pyramide
-      i * 60,
+      j * 60,
+      j * 60,
       elem,
       getEnemis,
       removeEnimy,
       removeBullet
     );
     enemys.push(enemy);
+    // }
   }
   numEnemis = numEnemis - 2;
 }
+callEnemy()
+
+setInterval(() => {
+  callEnemy()
+}, 1000);
 
 function moveEnemies() {
   enemys.forEach((enemy) => {
@@ -152,10 +157,11 @@ function updateEnemies() {
     const bullet = getEnemis(enemy);
     if (enemys.length === 0) {
       setTimeout(() => {
-      const playAgain = window.confirm(
-        "Partie terminer . Voulez-vous rejouer ?"
-      );
+        const playAgain = window.confirm(
+          "Partie terminer . Voulez-vous rejouer ?"
+        );
       }, 16)
+
     }
     if (bullet && !bullet.isAlien) {
       enemys.splice(enemys.indexOf(enemy), 1);
@@ -165,7 +171,7 @@ function updateEnemies() {
     }
 
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y) {
+    if (enemy.y >= window.innerHeight + y + 200) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
       console.log("Ennemi sorti de l'écran");
@@ -176,15 +182,13 @@ function updateEnemies() {
 // Fonction de réinitialisation du jeu
 function resetGame() {
   // Remettre le joueur à sa position de départ
-  player.setX(0);
-  player.setY(0);
+  setInterval(() => { 
 
-  // Réinitialiser les ennemis
-  enemys.forEach((enemy) => {
-    enemy.remove();
-  });
-  enemys = [];
-
+    updateEnemies();
+    move(player, keys, elem, player.x, player.y);
+    // checkPlayerEnemyCollisions()
+  }, 16);
+    time = time + 1;
   // Autres réinitialisations nécessaires
   // ...
 }
