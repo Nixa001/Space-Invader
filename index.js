@@ -138,7 +138,11 @@ function updateEnemies() {
       const playAgain = window.confirm(
         "Partie terminer . Voulez-vous rejouer ?"
       );
+      if (playAgain) {
+        resetGame();
+      }
       }, 16)
+
     }
     if (bullet && !bullet.isAlien) {
       console.log("Collision avec la balle");
@@ -150,7 +154,7 @@ function updateEnemies() {
     }
 
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y) {
+    if (enemy.y >= window.innerHeight + y + 300) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
       console.log("Ennemi sorti de l'écran");
@@ -161,15 +165,13 @@ function updateEnemies() {
 // Fonction de réinitialisation du jeu
 function resetGame() {
   // Remettre le joueur à sa position de départ
-  player.setX(0);
-  player.setY(0);
+  setInterval(() => { 
 
-  // Réinitialiser les ennemis
-  enemys.forEach((enemy) => {
-    enemy.remove();
-  });
-  enemys = [];
-
+    updateEnemies();
+    move(player, keys, elem, player.x, player.y);
+    // checkPlayerEnemyCollisions()
+  }, 16);
+    time = time + 1;
   // Autres réinitialisations nécessaires
   // ...
 }
