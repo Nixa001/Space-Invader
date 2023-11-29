@@ -2,7 +2,9 @@ import { Enemy } from "./controlers/enemy/enemy.js";
 import { bullets, move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
+import { Audio } from "./controlers/audios/audio.js";
 
+export let time = 0;
 new Background();
 const elem = document.querySelector(".game-container");
 const player = new Players(elem);
@@ -29,11 +31,14 @@ const removeBullet = (bullet) => {
   bullets.splice(bullets.indexOf(bullet), 1);
   bullet.remove();
 };
+const son = "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
 
 // Fonction pour obtenir la balle qui entre en collision avec l'ennemi
 const getEnemis = (enemy) => {
   for (const bullet of bullets) {
     if (collision(enemy, bullet)) {
+      const audio = new Audio(elem, son);
+      audio.play();
       return bullet;
     }
   }
@@ -54,6 +59,12 @@ for (let i = 0; i < 13; i++) {
   }
 }
 
+function moveEnemies() {
+  enemys.forEach((enemy) => {
+    enemy.moveEnemys();
+  });
+}
+
 const keys = {
   ArrowLeft: false,
   ArrowRight: false,
@@ -71,6 +82,7 @@ document.addEventListener("keyup", (event) => {
 });
 
 setInterval(() => {
+  time = time + 1;
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
   // checkPlayerEnemyCollisions()
@@ -100,7 +112,6 @@ const collision = (entity1, entity2) => {
 function updateEnemies() {
   enemys.forEach((enemy) => {
     enemy.update();
-
     // Vérifier la collision avec le joueur
     if (collision(player, enemy)) {
       const playerDest = "/assets/player/playerDestroy.gif";
@@ -109,17 +120,32 @@ function updateEnemies() {
       player.el.src = playerDest;
       setTimeout(() => {
         player.remove();
+        const playAgain = window.confirm(
+          "Vous avez perdu. Voulez-vous rejouer ?"
+        );
+        if (playAgain) {
+          resetGame();
+        }
       }, 1000);
       enemy.remove();
+      return;
     }
 
     // Vérifier la collision avec les balles du joueur
     const bullet = getEnemis(enemy);
+    if (enemys.length === 0) {
+      setTimeout(() => {
+      const playAgain = window.confirm(
+        "Partie terminer . Voulez-vous rejouer ?"
+      );
+      }, 16)
+    }
     if (bullet && !bullet.isAlien) {
+      console.log("Collision avec la balle");
       // Gérer la collision avec la balle ici (par exemple, supprimer l'ennemi, la balle et augmenter le score)
       enemys.splice(enemys.indexOf(enemy), 1);
       bullet.remove();
-      console.log("Collision avec la balle");
+
       return;
     }
 
@@ -130,4 +156,20 @@ function updateEnemies() {
       console.log("Ennemi sorti de l'écran");
     }
   });
+}
+
+// Fonction de réinitialisation du jeu
+function resetGame() {
+  // Remettre le joueur à sa position de départ
+  player.setX(0);
+  player.setY(0);
+
+  // Réinitialiser les ennemis
+  enemys.forEach((enemy) => {
+    enemy.remove();
+  });
+  enemys = [];
+
+  // Autres réinitialisations nécessaires
+  // ...
 }

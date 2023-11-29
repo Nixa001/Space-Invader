@@ -15,15 +15,15 @@ export function move(player, keys, elem, x, y) {
   } else if (keys["ArrowDown"]) {
     player.moveDown(elem);
   }
-
+  
   if (keys[" "] && interval) {
     interval = false;
     createBullet(x, y, elem);
     setTimeout(() => {
       interval = true;
-    }, 1000);
+    }, 100);
   }
-
+  
   // Mettez à jour les balles existantes
   bullets.forEach((bullet) => {
     bullet.update();
@@ -35,8 +35,8 @@ export function move(player, keys, elem, x, y) {
   });
 }
 
-const bul = (bullets) => bullets;
-console.log(bul);
+// const bul = (bullets) => bullets;
+// console.log(bul);
 
 const son = '/assets/audio/Player/Game_assets_laser.wav'
 
@@ -47,10 +47,10 @@ const son = '/assets/audio/Player/Game_assets_laser.wav'
  * @param y - Le paramètre « y » représente la position verticale de la puce sur l'écran.
  * @param elem - Le paramètre "elem" représente l'élément ou l'objet auquel la puce est associée. Il
  * peut s'agir d'une image, d'un sprite ou de toute autre représentation visuelle de la balle.
- */
+*/
 function createBullet(x, y, elem) {
-  const bullet = new Bullet(x, y, elem);
   const audio = new Audio(elem, son);
+  const bullet = new Bullet(x, y, elem);
   audio.play(); 
   bullets.push(bullet);
 }

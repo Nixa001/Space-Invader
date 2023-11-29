@@ -13,7 +13,11 @@ export class Enemy extends Entity {
        l'écran de jeu. */
     this.setX(x);
     this.setY(y);
-    this.SPEED = 0.;
+    this.SPEED = 1;
+  }
+
+  moveEnemys() {
+    this.setY(this.y + this.SPEED);
   }
 
   update() {
@@ -26,7 +30,7 @@ export class Enemy extends Entity {
         this.removeBullet(bullet);
         //   this.addToScore(POINTS_PER_KILL);
         this.hit = true;
-    }
+      }
     }
   }
 }

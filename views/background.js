@@ -1,4 +1,4 @@
-import { Players } from "../controlers/player/player.js";
+import { time } from "../index.js";
 
 const navBar = ["Pause", "Times:", "Scores:", "Lives:"];
 
@@ -11,13 +11,19 @@ export class Background {
     this.element.className = "game-container";
     this.ul = document.createElement("ul");
     this.ul.className = "list-group";
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < navBar.length; i++) {
       this.li = document.createElement("li");
       this.li.className = navBar[i];
       this.li.innerText = navBar[i];
-      if (i > 0) {
+      if (i > 0 && i != 1) {
         this.span = document.createElement("span");
         this.span.innerText = 0;
+        this.span.id = "id-" + navBar[i];
+        this.li.appendChild(this.span);
+      }
+      if (i === 1) {
+        this.span = document.createElement("span");
+        this.span.innerText = time;
         this.span.id = "id-" + navBar[i];
         this.li.appendChild(this.span);
       }
