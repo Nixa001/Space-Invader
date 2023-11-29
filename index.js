@@ -3,6 +3,7 @@ import { bullets, move } from "./controlers/player/move.js";
 import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
+import { getRandom } from "./utils/random/random.js";
 
 export let time = 0;
 new Background();
@@ -44,11 +45,13 @@ const getEnemis = (enemy) => {
   }
   return null;
 };
+function callEnemy() {
 
-for (let i = 0; i < 13; i++) {
-  for (let j = 0; j < 4; j++) {
+  // for (let i = 0; i < 13; i++) {
+  const numRandom = getRandom(1, 2)
+  for (let j = 0; j < numRandom; j++) {
     const enemy = new Enemy(
-      i * 60,
+      j * 60,
       j * 60,
       elem,
       getEnemis,
@@ -56,8 +59,14 @@ for (let i = 0; i < 13; i++) {
       removeBullet
     );
     enemys.push(enemy);
+    // }
   }
 }
+callEnemy()
+
+setInterval(() => {
+  callEnemy()
+}, 1000);
 
 function moveEnemies() {
   enemys.forEach((enemy) => {
@@ -80,14 +89,25 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-
-setInterval(() => {
-  time = time + 1;
+let j = 0
+function moveBg() {
+  j++;
+  document.body.style.backgroundPositionY = j + "px";
+  requestAnimationFrame(moveBg);
+}
+function animate() {
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
-  // checkPlayerEnemyCollisions()
-}, 16);
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate)
+// setInterval(() => {
+//   updateEnemies();
+//   move(player, keys, elem, player.x, player.y);
+//   // checkPlayerEnemyCollisions()
+// }, 16);
 
+// moveBg()
 const collision = (entity1, entity2) => {
   /**
    * La méthode Element.getBoundingClientRect() retourne
@@ -111,7 +131,8 @@ const collision = (entity1, entity2) => {
 // Fonction pour mettre à jour les ennemis et vérifier les collisions
 function updateEnemies() {
   enemys.forEach((enemy) => {
-    enemy.update();
+    enemy.moveEnemy();
+
     // Vérifier la collision avec le joueur
     if (collision(player, enemy)) {
       const playerDest = "/assets/player/playerDestroy.gif";
@@ -135,18 +156,13 @@ function updateEnemies() {
     const bullet = getEnemis(enemy);
     if (enemys.length === 0) {
       setTimeout(() => {
-      const playAgain = window.confirm(
-        "Partie terminer . Voulez-vous rejouer ?"
-      );
-      if (playAgain) {
-        resetGame();
-      }
+        const playAgain = window.confirm(
+          "Partie terminer . Voulez-vous rejouer ?"
+        );
       }, 16)
 
     }
     if (bullet && !bullet.isAlien) {
-      console.log("Collision avec la balle");
-      // Gérer la collision avec la balle ici (par exemple, supprimer l'ennemi, la balle et augmenter le score)
       enemys.splice(enemys.indexOf(enemy), 1);
       bullet.remove();
 
@@ -154,7 +170,7 @@ function updateEnemies() {
     }
 
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y + 300) {
+    if (enemy.y >= window.innerHeight + y + 200) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
       console.log("Ennemi sorti de l'écran");
