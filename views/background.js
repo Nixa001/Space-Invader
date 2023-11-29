@@ -9,7 +9,6 @@ export class Background {
     console.log("Hello world");
     this.element = document.createElement("div");
     this.element.className = "game-container";
-    
     this.ul = document.createElement("ul");
     this.ul.className = "list-group";
     for (var i = 0; i < navBar.length; i++) {
@@ -34,6 +33,5 @@ export class Background {
     document.body.appendChild(this.element);
     // new Players(this.element);
   }
-  
 }
 // new Background()

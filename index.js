@@ -61,7 +61,6 @@ function callEnemy() {
     enemys.push(enemy);
     // }
   }
-  numEnemis = numEnemis - 2;
 }
 callEnemy()
 
