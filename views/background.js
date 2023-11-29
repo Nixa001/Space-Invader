@@ -1,6 +1,7 @@
 import { time } from "../index.js";
 
-const navBar = ["Pause", "Times:", "Scores:", "Lives:"];
+const navBar = ["Pause", "Times", "Scores", "Lives"];
+
 
 /* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
 correspondants. */
@@ -25,6 +26,7 @@ export class Background {
         this.span = document.createElement("span");
         this.span.innerText = time;
         this.span.id = "id-" + navBar[i];
+        this.span.className = "class_" + navBar[i];
         this.li.appendChild(this.span);
       }
       this.ul.appendChild(this.li);
@@ -34,4 +36,4 @@ export class Background {
     // new Players(this.element);
   }
 }
-// new Background()
+

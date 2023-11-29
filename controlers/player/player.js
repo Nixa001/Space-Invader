@@ -1,5 +1,6 @@
 import { Entity } from "../../utils/entity/entity.js";
 
+
 let myPlayer = "/assets/player/playerC.gif";
 
 export class Players extends Entity {

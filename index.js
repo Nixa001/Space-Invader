@@ -81,14 +81,24 @@ const keys = {
   ArrowDown: false,
   Space: false,
 };
+let t = 0 
+t = document.querySelector(".class_Times")
+t.innerText = time
+
+for (let i = 0; i < time.length; i++){
+  time ++
+}
+
 
 document.addEventListener("keydown", (event) => {
   keys[event.key] = true;
+
 });
 
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
+console.log(t);
 let j = 0
 function moveBg() {
   j++;
@@ -187,7 +197,10 @@ function resetGame() {
     move(player, keys, elem, player.x, player.y);
     // checkPlayerEnemyCollisions()
   }, 16);
-    time = time + 1;
+  time = time + 1;
   // Autres réinitialisations nécessaires
   // ...
 }
+
+
+ 
