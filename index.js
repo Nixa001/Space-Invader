@@ -69,13 +69,25 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-
-setInterval(() => {
+let j = 0
+function moveBg() {
+  j++;
+  document.body.style.backgroundPositionY = j + "px";
+  requestAnimationFrame(moveBg);
+}
+function animate() {
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
-  // checkPlayerEnemyCollisions()
-}, 16);
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate)
+// setInterval(() => {
+//   updateEnemies();
+//   move(player, keys, elem, player.x, player.y);
+//   // checkPlayerEnemyCollisions()
+// }, 16);
 
+// moveBg()
 const collision = (entity1, entity2) => {
   /**
    * La méthode Element.getBoundingClientRect() retourne
@@ -99,7 +111,7 @@ const collision = (entity1, entity2) => {
 // Fonction pour mettre à jour les ennemis et vérifier les collisions
 function updateEnemies() {
   enemys.forEach((enemy) => {
-    enemy.update();
+    enemy.moveEnemy();
 
     // Vérifier la collision avec le joueur
     if (collision(player, enemy)) {
@@ -116,7 +128,6 @@ function updateEnemies() {
     // Vérifier la collision avec les balles du joueur
     const bullet = getEnemis(enemy);
     if (bullet && !bullet.isAlien) {
-      // Gérer la collision avec la balle ici (par exemple, supprimer l'ennemi, la balle et augmenter le score)
       enemys.splice(enemys.indexOf(enemy), 1);
       bullet.remove();
       console.log("Collision avec la balle");
