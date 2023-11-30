@@ -46,9 +46,8 @@ const getEnemis = (enemy) => {
   return null;
 };
 function callEnemy() {
-
   // for (let i = 0; i < 13; i++) {
-  const numRandom = getRandom(1, 2)
+  const numRandom = getRandom(1, 2);
   for (let j = 0; j < numRandom; j++) {
     const enemy = new Enemy(
       j * 60,
@@ -62,16 +61,25 @@ function callEnemy() {
     // }
   }
 }
-callEnemy()
+callEnemy();
 
 setInterval(() => {
-  callEnemy()
+  callEnemy();
 }, 1000);
 
 function moveEnemies() {
   enemys.forEach((enemy) => {
     enemy.moveEnemys();
   });
+}
+function runtime(sec, m) {
+  sec = document.querySelector(".class_Times");
+  m = document.querySelector(".min");
+  if (sec.innerText == 3) {
+      m++
+    sec.innerText = 0;
+  }
+  sec.innerText++;
 }
 
 const keys = {
@@ -82,38 +90,32 @@ const keys = {
   Space: false,
 };
 
-function runtime(sec){
-sec = document.querySelector(".class_Times")
-sec.innerHTML ++  
-}
-
-
 document.addEventListener("keydown", (event) => {
   keys[event.key] = true;
-
 });
 
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-let j = 0
+let j = 0;
 function moveBg() {
   j++;
   document.body.style.backgroundPositionY = j + "px";
   requestAnimationFrame(moveBg);
 }
-let t1 =  0
+let t1 = 0;
 function animate() {
-  t1 ++;
+  t1++;
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
-  if (t1 === 60){
-    runtime()
-    t1 = 0
+  if (t1 === 60) {
+    runtime();
+    t1 = 0;
   }
+  console.log(time);
   requestAnimationFrame(animate);
 }
-requestAnimationFrame(animate)
+requestAnimationFrame(animate);
 // setInterval(() => {
 //   updateEnemies();
 //   move(player, keys, elem, player.x, player.y);
@@ -172,8 +174,7 @@ function updateEnemies() {
         const playAgain = window.confirm(
           "Partie terminer . Voulez-vous rejouer ?"
         );
-      }, 16)
-
+      }, 16);
     }
     if (bullet && !bullet.isAlien) {
       enemys.splice(enemys.indexOf(enemy), 1);
@@ -194,8 +195,7 @@ function updateEnemies() {
 // Fonction de réinitialisation du jeu
 function resetGame() {
   // Remettre le joueur à sa position de départ
-  setInterval(() => { 
-
+  setInterval(() => {
     updateEnemies();
     move(player, keys, elem, player.x, player.y);
     // checkPlayerEnemyCollisions()
@@ -204,6 +204,3 @@ function resetGame() {
   // Autres réinitialisations nécessaires
   // ...
 }
-
-
- 
