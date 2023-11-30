@@ -81,12 +81,10 @@ const keys = {
   ArrowDown: false,
   Space: false,
 };
-let t = 0 
-t = document.querySelector(".class_Times")
-t.innerText = time
 
-for (let i = 0; i < time.length; i++){
-  time ++
+function runtime(sec){
+sec = document.querySelector(".class_Times")
+sec.innerHTML ++  
 }
 
 
@@ -98,16 +96,21 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-console.log(t);
 let j = 0
 function moveBg() {
   j++;
   document.body.style.backgroundPositionY = j + "px";
   requestAnimationFrame(moveBg);
 }
+let t1 =  0
 function animate() {
+  t1 ++;
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
+  if (t1 === 60){
+    runtime()
+    t1 = 0
+  }
   requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate)
@@ -197,7 +200,7 @@ function resetGame() {
     move(player, keys, elem, player.x, player.y);
     // checkPlayerEnemyCollisions()
   }, 16);
-  time = time + 1;
+  // time = time + 1;
   // Autres réinitialisations nécessaires
   // ...
 }

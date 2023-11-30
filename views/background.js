@@ -15,7 +15,7 @@ export class Background {
     for (var i = 0; i < navBar.length; i++) {
       this.li = document.createElement("li");
       this.li.className = navBar[i];
-      this.li.innerText = navBar[i];
+      this.li.innerText = navBar[i] + " : " ;
       if (i > 0 && i != 1) {
         this.span = document.createElement("span");
         this.span.innerText = 0;
