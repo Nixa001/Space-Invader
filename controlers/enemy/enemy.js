@@ -13,7 +13,7 @@ let speed = 2
 export class Enemy extends Entity {
   constructor(x, y, elem, getEnemis, removeEnimy, removeBullet) {
     super("img", "enemy", elem);
-    this.el.src = "/assets/enemy/Enemy-1.png";
+    this.el.src = "/assets/enemy/Enemy-5.png";
     // this.el.src = "/assets/enemy/Enemy-" + num + ".png";
 
     this.getEnemis = getEnemis;
@@ -24,7 +24,7 @@ export class Enemy extends Entity {
     this.setY(y);
     if (levels === level) {
       speed += 0.1
-      level +=10 
+      level +=10
     }
 
     this.SPEED = speed;
@@ -50,7 +50,7 @@ export class Enemy extends Entity {
       this.setY(this.y + this.SPEED);
 
       const bullet = this.getEnemis(this);
-      if (bullet && !bullet.isAlien) {
+      if (bullet && !bullet.isEnemy) {
         this.removeEnimy(this);
         this.removeBullet(bullet);
         this.hit = true;

@@ -4,41 +4,48 @@ import { Players } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
 import { getRandom } from "./utils/random/random.js";
+import { Menu } from "./views/menu.js";
 
-export let time = 0;
+let enemys = [];
+let x, y = 0;
+let menu;
+// new Menu();
 new Background();
 const elem = document.querySelector(".game-container");
+const sonDestroyEnemy = "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
+const sonDestroyPlayer = "/assets/audio/Autres/audio_brick_destroy.wav";
+let min = 4;
+let max = 7;
+
+document.addEventListener("DOMContentLoaded", () => {
+  menu = new Menu("gameContainer", startGame);
+});
+function hideMenu() {
+  let menu = document.querySelector(".game_menu")
+  menu.style.display = "none";
+}
+function startGame() {
+  hideMenu()
+requestAnimationFrame(animate);
 const player = new Players(elem);
-
-let x,
-  y = 0;
-
-const enemys = [];
+setInterval(() => {
+  callEnemy(min, max);
+}, 1500);
 
 const removeEnimy = (enemy) => {
   enemys.splice(enemys.indexOf(enemy), 1);
   enemy.remove();
-
-  // for (let row = 0; row < aliensGrid.length; row++) {
-  //   for (let col = 0; col < aliensGrid.length; col++) {
-  //     if (aliensGrid[row][col] === alien) {
-  //       aliensGrid[row][col] = null;
-  //     }
-  //   }
-  // }
 };
 
 const removeBullet = (bullet) => {
   bullets.splice(bullets.indexOf(bullet), 1);
   bullet.remove();
 };
-const son = "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
 
-// Fonction pour obtenir la balle qui entre en collision avec l'ennemi
 const getEnemis = (enemy) => {
   for (const bullet of bullets) {
     if (collision(enemy, bullet)) {
-      const audio = new Audio(elem, son);
+      const audio = new Audio(elem, sonDestroyEnemy);
       audio.play();
       return bullet;
     }
@@ -46,39 +53,16 @@ const getEnemis = (enemy) => {
   return null;
 };
 
-let min = 4
-let max = 7
 function callEnemy(min, max) {
-
-  // for (let i = 0; i < 13; i++) {
   if (max < 10) {
-    min++
-    max++
+    min++;
+    max++;
   }
-  const numRandom = getRandom(min, max)
+  const numRandom = getRandom(min, max);
   for (let j = 0; j < numRandom; j++) {
-    const enemy = new Enemy(
-      j * 60,
-      j * 60,
-      elem,
-      getEnemis,
-      removeEnimy,
-      removeBullet
-    );
+    const enemy = new Enemy(j * 60, j * 60, elem, getEnemis, removeEnimy, removeBullet);
     enemys.push(enemy);
-    // }
   }
-}
-callEnemy(4, 7)
-
-setInterval(() => {
-  callEnemy(min, max)
-}, 1500);
-
-function moveEnemies() {
-  enemys.forEach((enemy) => {
-    enemy.moveEnemys();
-  });
 }
 
 const keys = {
@@ -96,31 +80,19 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
-let k = 0
+
+let k = 0;
+
 function animate() {
-  k++
+  // callEnemy(4, 7);
+  k++;
   elem.style.backgroundPositionY = k + "px";
   updateEnemies();
   move(player, keys, elem, player.x, player.y);
   requestAnimationFrame(animate);
 }
 
-requestAnimationFrame(animate)
-// setInterval(() => {
-//   updateEnemies();
-//   move(player, keys, elem, player.x, player.y);
-//   // checkPlayerEnemyCollisions()
-// }, 16);
-
-// moveBg()
 const collision = (entity1, entity2) => {
-  /**
-   * La méthode Element.getBoundingClientRect() retourne
-   * un objet DOMRect fournissant des informations sur
-   * la taille d'un élément et sa position relative par
-   * rapport à la zone d'affichage.
-   */
-  // On verifie si l'element 2 existe
   if (entity2 && entity2.el && entity1 && entity1.el) {
     const rect1 = entity1.el.getBoundingClientRect();
     const rect2 = entity2.el.getBoundingClientRect();
@@ -133,22 +105,18 @@ const collision = (entity1, entity2) => {
   }
 };
 
-// Fonction pour mettre à jour les ennemis et vérifier les collisions
 function updateEnemies() {
   enemys.forEach((enemy) => {
     enemy.moveEnemy();
-
-    // Vérifier la collision avec le joueur
     if (collision(player, enemy)) {
       const playerDest = "/assets/player/playerDestroy.gif";
-      // Gérer la collision avec le joueur ici (par exemple, réduire la vie)
       console.log("Collision avec le joueur");
+      const audio = new Audio(elem, sonDestroyPlayer);
+      audio.play();
       player.el.src = playerDest;
       setTimeout(() => {
         player.remove();
-        const playAgain = window.confirm(
-          "Vous avez perdu. Voulez-vous rejouer ?"
-        );
+        const playAgain = window.confirm("Vous avez perdu. Voulez-vous rejouer ?");
         if (playAgain) {
           resetGame();
         }
@@ -156,43 +124,38 @@ function updateEnemies() {
       enemy.remove();
       return;
     }
-
-    // Vérifier la collision avec les balles du joueur
     const bullet = getEnemis(enemy);
     if (enemys.length === 0) {
       setTimeout(() => {
-        const playAgain = window.confirm(
-          "Partie terminer . Voulez-vous rejouer ?"
-        );
-      }, 16)
+        const playAgain = window.confirm("Partie terminée. Voulez-vous rejouer ?");
+      }, 16);
     }
-    if (bullet && !bullet.isAlien) {
+    if (bullet && !bullet.isEnemy) {
       enemys.splice(enemys.indexOf(enemy), 1);
       bullet.remove();
-
       return;
     }
-
-    // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y + 200) {
+    if (enemy.y >= window.innerHeight + y + 400) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
+      setTimeout(() => {
+        player.remove();
+        const playAgain = window.confirm("Vous avez perdu. Voulez-vous rejouer ?");
+        if (playAgain) {
+          resetGame();
+        }
+      }, 1);
       console.log("Ennemi sorti de l'écran");
     }
   });
 }
-// Fonction de réinitialisation du jeu
+
 function resetGame() {
-  // Remettre le joueur à sa position de départ
   player.setX(0);
   player.setY(0);
-
-  // Réinitialiser les ennemis
   enemys.forEach((enemy) => {
     enemy.remove();
   });
   enemys = [];
-
-  // Autres réinitialisations nécessaires
-  // ...
+}
 }

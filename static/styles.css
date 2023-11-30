@@ -44,9 +44,6 @@ body {
   /* transition: transform 0.1s ease; */
 }
 
-.bullet {
-  color: red;
-}
 
 .bullet {
   position: absolute;
@@ -63,4 +60,16 @@ body {
   left: 20%;
 
   /* background-color: red; */
+}
+
+.game_menu{
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  height: 70vh;
+  background: #000000d8;
+  margin: auto;
 }
