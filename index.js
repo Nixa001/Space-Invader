@@ -12,8 +12,8 @@ new Background()
 const elem = document.querySelector(".game-container");
 const sonDestroyEnemy = "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
 const sonDestroyPlayer = "/assets/audio/Autres/audio_brick_destroy.wav";
-let minEnemyCount = 4;
-let maxEnemyCount = 7;
+let minEnemyCount = 1;
+let maxEnemyCount = 2;
 let y = 0
 
 // Global variables
