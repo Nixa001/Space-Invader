@@ -7,33 +7,42 @@ import { getRandom } from "./utils/random/random.js";
 import { Menu } from "./views/menu.js";
 import { Lives } from "./views/lives.js";
 
-let enemys = [];
-let x, y = 0;
-let menu;
-export let lives = 3
-// new Menu();
-new Background();
+new Background()
+// Constants
 const elem = document.querySelector(".game-container");
 const sonDestroyEnemy = "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
 const sonDestroyPlayer = "/assets/audio/Autres/audio_brick_destroy.wav";
-let min = 4;
-let max = 7;
+let minEnemyCount = 4;
+let maxEnemyCount = 7;
+let y = 0
+
+// Global variables
+let enemys = [];
+export let lives = 3;
+let menu;
+let k = 0;
+// Objects
 
 document.addEventListener("DOMContentLoaded", () => {
   menu = new Menu("gameContainer", startGame);
 });
-function hideMenu() {
-  let menu = document.querySelector(".game_menu")
-  menu.style.display = "none";
+
+// Function to display or hide the menu
+function displayMenu(displayStyle) {
+  const menu = document.querySelector(".game_menu");
+  menu.style.display = displayStyle;
 }
+
+// Function to start the game
 function startGame() {
-  hideMenu()
-  requestAnimationFrame(animate);
   const player = new Players(elem);
+  displayMenu("none");
+  requestAnimationFrame(animate);
   setInterval(() => {
-    callEnemy(min, max);
+    callEnemy(minEnemyCount, maxEnemyCount);
   }, 1500);
 
+  // Functions to remove enemy and bullet
   const removeEnimy = (enemy) => {
     enemys.splice(enemys.indexOf(enemy), 1);
     enemy.remove();
@@ -44,6 +53,7 @@ function startGame() {
     bullet.remove();
   };
 
+  // Function to get enemies hit by bullets
   const getEnemis = (enemy) => {
     for (const bullet of bullets) {
       if (collision(enemy, bullet)) {
@@ -55,6 +65,7 @@ function startGame() {
     return null;
   };
 
+  // Function to create enemies
   function callEnemy(min, max) {
     if (max < 10) {
       min++;
@@ -67,6 +78,7 @@ function startGame() {
     }
   }
 
+  // Keyboard event listeners
   const keys = {
     ArrowLeft: false,
     ArrowRight: false,
@@ -83,10 +95,8 @@ function startGame() {
     keys[event.key] = false;
   });
 
-  let k = 0;
-
+  // Main game loop
   function animate() {
-    // callEnemy(4, 7);
     k++;
     elem.style.backgroundPositionY = k + "px";
     updateEnemies();
@@ -94,6 +104,7 @@ function startGame() {
     requestAnimationFrame(animate);
   }
 
+  // Function to check collision between two entities
   const collision = (entity1, entity2) => {
     if (entity2 && entity2.el && entity1 && entity1.el) {
       const rect1 = entity1.el.getBoundingClientRect();
@@ -107,6 +118,7 @@ function startGame() {
     }
   };
 
+  // Function to update enemies and check game over conditions
   function updateEnemies() {
     enemys.forEach((enemy) => {
       enemy.moveEnemy();
@@ -147,15 +159,17 @@ function startGame() {
             if (playAgain) {
               resetGame();
             }
+            // displayMenu("block");
           }
-          lives = lives - 1
-          new Lives()
+          lives = lives - 1;
+          new Lives();
         }, 1);
         console.log("Ennemi sorti de l'écran");
       }
     });
   }
 
+  // Function to reset the game state
   function resetGame() {
     player.setX(0);
     player.setY(0);
