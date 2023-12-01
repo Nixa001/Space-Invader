@@ -1,10 +1,14 @@
+import { audio } from "../../index.js";
 import { Audio } from "../audios/audio.js";
 import { Bullet } from "./projectile.js";
 
-export const bullets = [];
+// export const bullets = [];
 let interval = true;
+const sonPlayers = "/assets/audio/Player/Game_assets_laser.wav";
+let bullet = "/assets/Projectiles/laserGreen.png";
 
-export function move(player, keys, elem, x, y) {
+export function move(player, keys, elem, x, y, bullets, audio) {
+
   if (keys["ArrowRight"]) {
     player.moveRight(elem);
   } else if (keys["ArrowLeft"]) {
@@ -15,15 +19,18 @@ export function move(player, keys, elem, x, y) {
   } else if (keys["ArrowDown"]) {
     player.moveDown(elem);
   }
-  
+
   if (keys[" "] && interval) {
     interval = false;
-    createBullet(x, y, elem);
+    createBullet(x, y, elem, bullets, audio, bullet, "bullet");
+    audio.play(sonPlayers);
+
     setTimeout(() => {
       interval = true;
+      // myAudio.remove();
     }, 100);
   }
-  
+
   // Mettez à jour les balles existantes
   bullets.forEach((bullet) => {
     bullet.update();
@@ -38,19 +45,8 @@ export function move(player, keys, elem, x, y) {
 // const bul = (bullets) => bullets;
 // console.log(bul);
 
-const son = '/assets/audio/Player/Game_assets_laser.wav'
-
-
-/**
- * La fonction crée un objet puce, joue un son et ajoute la puce à un tableau.
- * @param x - La coordonnée x de la position de départ de la balle.
- * @param y - Le paramètre « y » représente la position verticale de la puce sur l'écran.
- * @param elem - Le paramètre "elem" représente l'élément ou l'objet auquel la puce est associée. Il
- * peut s'agir d'une image, d'un sprite ou de toute autre représentation visuelle de la balle.
-*/
-function createBullet(x, y, elem) {
-  const audio = new Audio(elem, son);
-  const bullet = new Bullet(x, y, elem);
-  audio.play(); 
+export function createBullet(x, y, elem, bullets, audio, image, className) {
+  const bullet = new Bullet(x, y, elem, image, className);
+  // audio.play();
   bullets.push(bullet);
 }

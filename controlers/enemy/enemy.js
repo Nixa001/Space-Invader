@@ -1,33 +1,45 @@
 import { Entity } from "../../utils/entity/entity.js";
+import { Scores } from "../../utils/level/scores.js";
 import { getRandom } from "../../utils/random/random.js";
+import { Bullet } from "../player/projectile.js";
+
 const screenWidth = 1000;
 const LEFT = "left";
 const RIGHT = "right";
-const direction = [LEFT, RIGHT]
+const direction = [LEFT, RIGHT];
 let num = getRandom(1, 7);
-let levels = 1
-let level = 10
-let speed = 2
+export let scores = 0;
+
 export class Enemy extends Entity {
-  constructor(x, y, elem, getEnemis, removeEnimy, removeBullet) {
+  constructor(x, y, elem, getEnemis, removeEnimy, removeBullet, image) {
     super("img", "enemy", elem);
-    this.el.src = "/assets/enemy/Enemy-5.png";
+    this.el.src = image;
     // this.el.src = "/assets/enemy/Enemy-" + num + ".png";
-    this.getEnemis = getEnemis;
-    this.removeEnimy = removeEnimy;
-    this.removeBullet = removeBullet;
-    this.hit = false;
-    this.setX(getRandom(1, 1000));
-    this.setY(y);
-    if (levels === level) {
-      speed += 0.1
-      level +=10
+    if (this.el) {
+      this.getEnemis = getEnemis;
+      this.removeEnimy = removeEnimy;
+      this.removeBullet = removeBullet;
+      this.hit = false;
+      this.bulletEnemis = [];
+
+      this.setX(getRandom(1, 1000));
+      this.setY(y);
+      this.SPEED = 1;
+      this.HORIZONTAL_SPEED = 10;
+      this.direction = direction[getRandom(0, 2)];
     }
-    this.SPEED = speed;
-    this.HORIZONTAL_SPEED = 1;
-    this.direction = direction[getRandom(0, 2)];
-    levels++
   }
+
+  shoot() {
+    const bullet = new Bullet(
+      this.x,
+      this.y,
+      this.elem,
+      "/assets/enemy/enemy-boss-1.png"
+    );
+    this.bulletEnemis.push(bullet);
+  }
+
   moveEnemy() {
     if (!this.hit) {
       if (this.direction === LEFT && this.x <= 0) {
@@ -35,16 +47,21 @@ export class Enemy extends Entity {
       } else if (this.direction === RIGHT && this.x >= screenWidth) {
         this.direction = LEFT;
       }
+
       if (this.direction === LEFT) {
         this.setX(this.x - this.HORIZONTAL_SPEED);
       } else {
         this.setX(this.x + this.HORIZONTAL_SPEED);
       }
+
       this.setY(this.y + this.SPEED);
+
       const bullet = this.getEnemis(this);
-      if (bullet && !bullet.isEnemy) {
+      if (bullet && !bullet.isAlien) {
         this.removeEnimy(this);
         this.removeBullet(bullet);
+        scores++;
+        new Scores();
         this.hit = true;
       }
     }

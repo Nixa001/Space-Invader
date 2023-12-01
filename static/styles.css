@@ -1,15 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Nova+Square&display=swap");
+@font-face {
+  font-family: "Zero";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("/assets/font/Zero.ttf") format("woff2"),
+    url("/assets/font/ZeroFilled.ttf") format("woff");
+}
 * {
   margin: 0;
   padding: 0;
 }
-
 body {
+  font-family: "Nova Square";
   width: 100vw;
   height: 100vh;
   color: white;
   overflow: hidden;
 }
-
 .game-container {
   width: 100%;
   height: 100%;
@@ -17,50 +24,102 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 .game-container .player {
   width: 70px;
 }
-
 .game-container .list-group {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   gap: 100;
 }
-
 .game-container .list-group li {
   list-style-type: none;
 }
-
-.projectile {
-  background-color: blue;
-  width: 2px;
-  height: 2px;
-}
-
-.game-container img {
-  /* transform: rotate(45deg); */
-  /* transition: transform 0.1s ease; */
-}
-
-.bullet {
-  color: red;
-}
-
 .bullet {
   position: absolute;
   left: 15px;
   width: 40px;
   /* height: 100px; */
 }
-
 .enemy {
   width: 50px;
   height: 50px;
   position: absolute;
   top: 0px;
-  left: 20%;
-
   /* background-color: red; */
+}
+.bulletEnemis {
+  position: absolute;
+  width: 40px;
+  /* left: 400px; */
+}
+.game_menu {
+  font-family: "Zero", sans-serif;
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: #000000a6;
+  margin: auto;
+}
+.game_menu h1 {
+  font-size: 200px;
+  color: #fff;
+}
+.game_menu h2 {
+  font-size: 100px;
+  color: #fff;
+}
+ul {
+  margin-top: 30px;
+}
+button {
+  width: 150px;
+  height: 50px;
+  font-family: "Nova Square";
+  background-color: white;
+  margin: 20px;
+  color: #568fa6;
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+button:before,
+button:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #568fa6;
+  /* background-color: #44d8a4; */
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+button:before {
+  right: 0;
+  top: 0;
+  transition: all 0.5s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+button:after {
+  left: 0;
+  bottom: 0;
+}
+button:hover:before,
+button:hover:after {
+  width: 100%;
+}
+button:hover {
+  font-size: 20px;
 }
