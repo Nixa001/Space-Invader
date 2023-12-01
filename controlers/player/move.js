@@ -7,12 +7,14 @@ let interval = true;
 export function move(player, keys, elem, x, y) {
   if (keys["ArrowRight"]) {
     player.moveRight(elem);
-  } else if (keys["ArrowLeft"]) {
+  } 
+  if (keys["ArrowLeft"]) {
     player.moveLeft();
   }
   if (keys["ArrowUp"]) {
     player.moveUp();
-  } else if (keys["ArrowDown"]) {
+  } 
+  if (keys["ArrowDown"]) {
     player.moveDown(elem);
   }
   

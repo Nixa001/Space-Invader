@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
-@import url('/assets/font/SpaceShards-RpExo.ttf');
 @font-face {
   font-family: 'Zero';
   font-style: normal;
@@ -56,7 +55,6 @@ body {
   height: 50px;
   position: absolute;
   top: -400px;
-  left: 20%;
 
   /* background-color: red; */
 }

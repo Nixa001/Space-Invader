@@ -1,7 +1,8 @@
 import { Entity } from "../../utils/entity/entity.js";
 import { getRandom } from "../../utils/random/random.js";
+import { Scores } from "../../views/scores.js";
 
-const screenWidth = 1000;
+const screenWidth = window.innerWidth - 100;
 const LEFT = "left";
 const RIGHT = "right";
 const direction = [LEFT, RIGHT]
@@ -9,6 +10,7 @@ let num = getRandom(1, 7);
 let levels = 1
 let level = 10
 let speed = 2
+export let scores = 0
 
 export class Enemy extends Entity {
   constructor(x, y, elem, getEnemis, removeEnimy, removeBullet) {
@@ -24,7 +26,7 @@ export class Enemy extends Entity {
     this.setY(y);
     if (levels === level) {
       speed += 0.1
-      level +=10
+      level += 10
     }
 
     this.SPEED = speed;
@@ -54,6 +56,8 @@ export class Enemy extends Entity {
         this.removeEnimy(this);
         this.removeBullet(bullet);
         this.hit = true;
+        scores = scores + 1
+        new Scores()
       }
     }
   }

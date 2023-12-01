@@ -38,6 +38,6 @@ export class Entity {
     if (this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
     }
-    this.el = null;
+    // this.el = null;
   }
 }
