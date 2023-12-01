@@ -19,6 +19,7 @@ export class Background {
       if (navBar[i] == "Times"){
         this.min = document.createElement("span");
          this.min.innerText = 0
+         this.min.className = "min";
          this.li.appendChild(this.min);
         this.li.innerText = navBar[i] + " : " + this.min.innerText + " :  "; 
       }else{

@@ -72,11 +72,11 @@ function moveEnemies() {
     enemy.moveEnemys();
   });
 }
-function runtime(sec, m) {
+function runtime(sec, min) {
   sec = document.querySelector(".class_Times");
-  m = document.querySelector(".min");
+  min = document.querySelector(".min");
   if (sec.innerText == 3) {
-      m++
+    // min.innerText = parseInt(min.innerText) + 1
     sec.innerText = 0;
   }
   sec.innerText++;
