@@ -11,6 +11,7 @@ import { collision } from "./utils/collision/getCollision.js";
 // import { getEnemis } from "./utils/collision/getCollision.js";
 
 // ------------------------------------VARIABLES --------------------------------
+export let minutes = 0;
 export let time = 0;
 const bg = new Background();
 const elem = document.querySelector(".game-container");
