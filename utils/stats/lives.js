@@ -1,8 +1,8 @@
-import { lives } from "../enemis/updateEnemis.js";
+import { gameState } from "./variables.js";
 
 export class Lives {
   constructor() {
     let livesDiv = document.querySelector(".lives");
-    livesDiv.innerText = "Lives: " + lives;
+    livesDiv.innerText = "Lives: " + gameState.lives;
   }
 }

@@ -1,4 +1,5 @@
-import { gameState } from "../../utils/stats/variables.js";
+import { gameState } from "./variables.js";
+
 export class Scores {
   constructor() {
     let scoreDiv = document.querySelector(".scores");

@@ -1,10 +1,9 @@
-import { time } from "../index.js";
+import { gameState } from "../utils/stats/variables.js";
 const navBar = ["Pause", "Times: ", "Scores", "Lives"];
 /* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
 correspondants. */
 export class Background {
   constructor() {
-    console.log("HeLLO");
     this.element = document.createElement("div");
     this.element.className = "game-container";
     this.element.id = "gameContainer";
@@ -23,7 +22,7 @@ export class Background {
       }
       if (i === 1) {
         this.span = document.createElement("span");
-        this.span.innerText = time;
+        this.span.innerText = gameState.time;
         this.span.id = "id-" + navBar[i];
         this.span.className = "class_" + 'Times';
         this.li.appendChild(this.span);
