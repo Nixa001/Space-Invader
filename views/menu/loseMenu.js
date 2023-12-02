@@ -1,4 +1,4 @@
-import { gameState } from "../stats/variables.js";
+import { gameState } from "../../utils/stats/variables.js";
 
 export class LoseMenu {
     constructor(containerId, homeCallback, restartCallback) {

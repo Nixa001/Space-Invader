@@ -8,9 +8,9 @@ import { enemisBulletFire } from "./utils/bullets/bulletEnemis.js";
 import { runtime } from "./utils/time/runTime.js";
 import { updateEnemies } from "./utils/enemis/updateEnemis.js";
 import { collision } from "./utils/collision/getCollision.js";
-import { Menu } from "./utils/menu/menu.js";
-import { PauseMenu } from "./utils/menu/pauseMenu.js";
-import { LoseMenu } from "./utils/menu/loseMenu.js";
+import { Menu } from "./views/menu/menu.js";
+import { PauseMenu } from "./views/menu/pauseMenu.js";
+import { LoseMenu } from "./views/menu/loseMenu.js";
 import { gameState } from "./utils/stats/variables.js";
 // import { getEnemies } from "./utils/collision/getCollision.js";
 
@@ -75,7 +75,11 @@ function continueGame() {
 export const getEnemies = (enemy) => {
   for (const bullet of bullets) {
     if (collision(enemy, bullet)) {
+      const audio = new Audio(elem);
       audio.play(soundDestroyEnemy);
+      setTimeout(() => {
+        audio.remove(soundDestroyEnemy);
+      }, 400);
       return bullet;
     }
   }
@@ -109,59 +113,59 @@ function startGame() {
   };
 
 
-// Initialisation des constantes
-const minEnemyShootRandom = 1;
-const maxEnemyShootRandom = 5;
-let counterShooter = 0;
+  // Initialisation des constantes
+  const minEnemyShootRandom = 1;
+  const maxEnemyShootRandom = 5;
+  let counterShooter = 0;
 
-function getRandom(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+  function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-function callEnemy(tabEnemis) {
-  counterShooter++;
- const enemyShootRandom = Math.max(
-    minEnemyShootRandom,
-    maxEnemyShootRandom - Math.floor(counterShooter / 20) 
-  );
+  function callEnemy(tabEnemis) {
+    counterShooter++;
+    const enemyShootRandom = Math.max(
+      minEnemyShootRandom,
+      maxEnemyShootRandom - Math.floor(counterShooter / 20)
+    );
 
-  const numRandom = getRandom(1, 2);
+    const numRandom = getRandom(1, 2);
 
-  for (let j = 0; j < numRandom; j++) {
-    let enemy;
+    for (let j = 0; j < numRandom; j++) {
+      let enemy;
 
-    if (counterShooter % enemyShootRandom === 0) {
-      enemy = new Enemy(
-        j * 60,
-        j * 60,
-        elem,
-        getEnemies,
-        removeEnemy,
-        removeBullet,
-        imageEnemiFire
-      );
+      if (counterShooter % enemyShootRandom === 0) {
+        enemy = new Enemy(
+          j * 60,
+          j * 60,
+          elem,
+          getEnemies,
+          removeEnemy,
+          removeBullet,
+          imageEnemiFire
+        );
 
-      enemy.CanShoot = true;
-      tabEnemis.push(enemy);
+        enemy.CanShoot = true;
+        tabEnemis.push(enemy);
 
-      if (enemy) {
-        shootEnemies();
+        if (enemy) {
+          shootEnemies();
+        }
+      } else {
+        enemy = new Enemy(
+          j * 60,
+          j * 60,
+          elem,
+          getEnemies,
+          removeEnemy,
+          removeBullet,
+          imageEnmie
+        );
+
+        tabEnemis.push(enemy);
       }
-    } else {
-      enemy = new Enemy(
-        j * 60,
-        j * 60,
-        elem,
-        getEnemies,
-        removeEnemy,
-        removeBullet,
-        imageEnmie
-      );
-
-      tabEnemis.push(enemy);
     }
   }
-}
 
 
 
@@ -179,7 +183,7 @@ function callEnemy(tabEnemis) {
             if (enemys.includes(enemy)) {
               createBullet(
                 enemy.x,
-                enemy.y + 5,
+                enemy.y,
                 elem,
                 bulletEnemis,
                 sonEnmys,

@@ -28,7 +28,7 @@ export function move(player, keys, elem, x, y, bullets, audio) {
     
     setTimeout(() => {
       interval = true;
-      // audio.remove(sonPlayers);
+      audio.remove(sonPlayers);
     }, 150);
   }
 

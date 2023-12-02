@@ -30,7 +30,6 @@ export class Enemy extends Entity {
       this.SPEED = SPEED_V;
       this.HORIZONTAL_SPEED = SPEED_H;
       this.direction = direction[getRandom(0, 2)];
-      console.log(gameState.scores);
       if (gameState.scores > 0 && gameState.scores % 15 == 0) {
         SPEED_V = SPEED_V + 0.1
         SPEED_H = SPEED_H + 0.1
