@@ -11,9 +11,11 @@ Players. */
     // this.el.style.width = "70px";
     // Initialisation de la position x du joueur
     this.el.style.position = "absolute";
-    this.setX(window.innerWidth / 2);
-    this.setY(window.innerHeight - 200);
-    this.SPEED = 9;
+    if (this.el) {
+      this.setX(window.innerWidth / 2);
+      this.setY(window.innerHeight - 200);
+      this.SPEED = 9;
+    }
   }
 
   /* Le bloc de code que vous avez fourni définit quatre méthodes : `moveRight`, `moveLeft`, `moveUp` et

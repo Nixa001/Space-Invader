@@ -1,12 +1,15 @@
 /* La classe Entity crée un nouvel élément HTML avec une balise, un nom de classe et un élément parent
 spécifiés. */
 export class Entity {
-  constructor(tag, classeName, elem) {
-    this.el = document.createElement(tag);
-    this.el.className = classeName;
-    this.el.id = classeName;
-    elem.appendChild(this.el);
+  constructor(tagName, className, parentElem) {
+    this.el = document.createElement(tagName);
+    this.el.className = className;
+    if (parentElem && this.el) {
+      parentElem.appendChild(this.el);
+    }
   }
+
+ 
   /**
    * La fonction setX définit la coordonnée x d'un élément et met à jour sa position sur l'écran.
    * @param x - Le paramètre x est la valeur représentant la translation horizontale d'un élément. Il
