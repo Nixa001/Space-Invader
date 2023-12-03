@@ -8,13 +8,14 @@ Players. */
   constructor(elem) {
     super("img", "player", elem);
     this.el.src = myPlayer;
-    this.el.style.width = "90px";
+    // this.el.style.width = "70px";
     // Initialisation de la position x du joueur
     this.el.style.position = "absolute";
-    this.setX(window.innerWidth / 3);
-    this.setY(window.innerHeight - 200);
-
-    this.SPEED = 15;
+    if (this.el) {
+      this.setX(window.innerWidth / 2);
+      this.setY(window.innerHeight - 200);
+      this.SPEED = 9;
+    }
   }
 
   /* Le bloc de code que vous avez fourni définit quatre méthodes : `moveRight`, `moveLeft`, `moveUp` et
@@ -33,7 +34,7 @@ Players. */
   }
 
   moveUp() {
-    if (this.y - this.SPEED > this.el.height * 7) {
+    if (this.y - this.SPEED > 0) {
       this.setY(this.y - this.SPEED);
     }
   }
@@ -44,19 +45,6 @@ Players. */
       elem.getBoundingClientRect().height - this.el.height - this.SPEED
     ) {
       this.setY(this.y + this.SPEED);
-    }
-  }
-
-  fire({creteBullet}){
-    if (this.canfire) {
-        this.canfire = false;
-        creteBullet({
-            x: this.x + this.SPEED_IMAGE_WIDTH / 2,
-            y: this.y,
-        });
-        setTimeout(() => {
-            this.canfire = true
-        }, 1000);
     }
   }
 }
