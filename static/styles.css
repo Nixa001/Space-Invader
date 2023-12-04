@@ -103,11 +103,12 @@ body {
   color: #fff;
 }
 .lose_menu h3{
-  font-family: 'Rune';
+  font-family: 'Zero';
   font-size: 40px;
 }
 
 ul {
+  color:grey;
   font-family: "Rune";
   font-size: 25px;
   margin-top: 30px;
@@ -115,7 +116,7 @@ ul {
 }
 
 button {
-  width: 150px;
+  width: 200px;
   height: 50px;
   font-family: "Rune";
   background-color: white;
@@ -162,5 +163,5 @@ button:hover:after {
 }
 
 button:hover {
-  font-size: 20px;
+  font-size: 25px;
 }

@@ -3,7 +3,7 @@ const navBar = ["Pause", "Times: ", "Scores", "Lives"];
 /* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
 correspondants. */
 export class Background {
-  constructor() {
+  constructor(Callback) {
     this.element = document.createElement("div");
     this.element.className = "game-container";
     this.element.id = "gameContainer";
@@ -13,6 +13,8 @@ export class Background {
       this.li = document.createElement("li");
       this.li.className = navBar[i].toLowerCase();
       this.li.innerText = navBar[i];
+      this.li.id = navBar[i].toLowerCase();
+
       if (i > 1 && i != 3) {
         this.span = document.createElement("span");
         this.span.innerText = ": 0";
