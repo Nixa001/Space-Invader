@@ -17,7 +17,9 @@ import { Scores } from "./utils/stats/scores.js";
 // import { getEnemies } from "./utils/collision/getCollision.js";
 
 // ------------------------------------VARIABLES --------------------------------
+export let minutes = 0;
 export let time = 0;
+let IsLose = false
 let gamePaused = true;
 const bg = new Background();
 const elem = document.querySelector(".game-container");
@@ -29,6 +31,7 @@ let y = 0;
 let menu;
 let pause;
 let loseMenu;
+let enemyShootRandom
 let player;
 export let CanPause = false;
 const enemys = [];
@@ -83,9 +86,10 @@ export function lose() {
   setting.canMove = true
   document.removeEventListener("keydown", keydownHandler);
   let score = document.querySelector(".scoresDiv")
-  score.innerHTML = "SCORES : " + gameState.scores
+  score.innerHTML = `SCORES: ${gameState.scores} XP`
   let time = document.querySelector(".timeDiv")
-  time.innerHTML = "TIMES : " + gameState.time
+  let timeMin = document.querySelector(".min")
+  time.innerHTML = `TIMES    ${timeMin.innerHTML} : ${gameState.time} s`
   displayLose(gamePaused ? "none" : "flex")
 }
 
@@ -140,11 +144,12 @@ function startGame() {
 
   function callEnemy(tabEnemis) {
     counterShooter++;
-    const enemyShootRandom = Math.max(
+    enemyShootRandom = Math.max(
       minEnemyShootRandom,
       maxEnemyShootRandom - Math.floor(counterShooter / 20)
     );
-
+    // console.log(enemyShootRandom);
+    console.log(counterShooter);
     const numRandom = getRandom(1, 2);
 
     for (let j = 0; j < numRandom; j++) {
@@ -200,7 +205,7 @@ function startGame() {
             if (enemys.includes(enemy)) {
               createBullet(
                 enemy.x,
-                enemy.y,
+                enemy.y - 50,
                 elem,
                 bulletEnemis,
                 sonEnmys,
@@ -248,7 +253,7 @@ function startGame() {
   function animate() {
     if (gamePaused) {
       timeGame++;
-      k++;
+      k+=3;
       elem.style.backgroundPositionY = k + "px";
       updateEnemies(enemys, bulletEnemis, player, bullets, y);
       move(player, keys, elem, player.x, player.y, bullets, audio);
@@ -260,15 +265,15 @@ function startGame() {
         timeGame = 0;
       }
     }
+    if (IsLose) {
+      counterShooter = 0
+      IsLose = !IsLose
+    }
 
     requestAnimationFrame(animate);
   }
-
-
   animate();
-
 }
-
 
 function resetGame() {
   pauses()
@@ -284,6 +289,7 @@ function resetGame() {
   player.resetPosition();
 
   const playerImg = "/assets/player/playerC.gif";
+  gamePaused = true;
   executeDelay(() => {
     player.el.src = playerImg
     gameState.lives = 3;
@@ -291,7 +297,10 @@ function resetGame() {
     gameState.scores = 0;
     new Scores();
     let sec = document.querySelector(".class_Times");
+    let m = document.querySelector(".min");
     sec.innerHTML = 0;
+    m.innerHTML = 0;
+
   }, 0.2)
-  gamePaused = true;
+  IsLose = true
 }
