@@ -7,6 +7,13 @@
   src: local(""), url("/assets/font/Zero.ttf") format("woff2"),
     url("/assets/font/ZeroFilled.ttf") format("woff");
 }
+@font-face {
+  font-family: "Rune";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("/assets/font/deltarune.ttf") format("woff2"),
+    url("/assets/font/deltarune.ttf") format("woff");
+}
 
 * {
   margin: 0;
@@ -14,7 +21,7 @@
 }
 
 body {
-  font-family: "Nova Square";
+  font-family: "Rune";
   width: 100vw;
   height: 100vh;
   color: white;
@@ -69,7 +76,7 @@ body {
 .game_menu,
 .pause_menu,
 .lose_menu {
-  font-family: "Zero", sans-serif;
+  font-family: "Rune", sans-serif;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -83,6 +90,7 @@ body {
 }
 
 .game_menu h1 {
+  font-family: "Zero";
   font-size: 200px;
   color: #fff;
 }
@@ -90,15 +98,18 @@ body {
 .game_menu h2,
 .pause_menu h2,
 .lose_menu h2 {
+  font-family: "Zero";
   font-size: 100px;
   color: #fff;
 }
 .lose_menu h3{
-  /* font-family: 'Nova Square'; */
+  font-family: 'Rune';
   font-size: 40px;
 }
 
 ul {
+  font-family: "Rune";
+  font-size: 25px;
   margin-top: 30px;
   z-index: 1;
 }
@@ -106,12 +117,11 @@ ul {
 button {
   width: 150px;
   height: 50px;
-  font-family: "Nova Square";
+  font-family: "Rune";
   background-color: white;
   margin: 20px;
-  color: #568fa6;
   position: relative;
-  font-size: 14px;
+  font-size: 20px;
   letter-spacing: 1px;
   font-weight: 600;
   text-transform: uppercase;
@@ -130,7 +140,7 @@ button:after {
   position: absolute;
   width: 0;
   height: 2px;
-  background-color: #568fa6;
+  background-color: #000;
   /* background-color: #44d8a4; */
   transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
 }

@@ -1,17 +1,19 @@
 import { createBullet, move } from "./controlers/player/move.js";
-import { Players } from "./controlers/player/player.js";
+import { Players, setting } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
 import { getRandom } from "./utils/random/random.js";
 import { Enemy } from "./controlers/enemy/enemy.js";
 import { enemisBulletFire } from "./utils/bullets/bulletEnemis.js";
 import { runtime } from "./utils/time/runTime.js";
-import { updateEnemies } from "./utils/enemis/updateEnemis.js";
+import { executeDelay, updateEnemies } from "./utils/enemis/updateEnemis.js";
 import { collision } from "./utils/collision/getCollision.js";
 import { Menu } from "./views/menu/menu.js";
 import { PauseMenu } from "./views/menu/pauseMenu.js";
 import { LoseMenu } from "./views/menu/loseMenu.js";
 import { gameState } from "./utils/stats/variables.js";
+import { Lives } from "./utils/stats/lives.js";
+import { Scores } from "./utils/stats/scores.js";
 // import { getEnemies } from "./utils/collision/getCollision.js";
 
 // ------------------------------------VARIABLES --------------------------------
@@ -26,6 +28,8 @@ let x = 0;
 let y = 0;
 let menu;
 let pause;
+let loseMenu;
+let player;
 export let CanPause = false;
 const enemys = [];
 let bullets = [];
@@ -42,7 +46,9 @@ let counterShooter = 0;
 document.addEventListener("DOMContentLoaded", () => {
   menu = new Menu("gameContainer", startGame);
   pause = new PauseMenu("gameContainer", continueGame, resetGame);
+  loseMenu = new LoseMenu("gameContainer", displayHome, resetGame)
   displayPause('none')
+  displayLose('none')
 });
 
 // Function to display or hide the menu
@@ -55,15 +61,32 @@ function displayHome() {
 }
 function displayPause(displayStyle) {
   const pause = document.querySelector(".pause_menu");
-  pause.style.display = displayStyle;
+  if (pause) {
+    pause.style.display = displayStyle;
+
+  }
 }
 function displayLose(displayStyle) {
   const pause = document.querySelector(".lose_menu");
-  pause.style.display = displayStyle;
+  if (pause) {
+    pause.style.display = displayStyle;
+  }
+}
+const keydownHandler = (event) => {
+  if (event.key === "Escape") {
+    gamePaused = !gamePaused;
+    displayPause(gamePaused ? "none" : "flex");
+  }
 }
 export function lose() {
   gamePaused = !gamePaused;
-  const loseMenu = new LoseMenu("gameContainer", displayHome, resetGame)
+  setting.canMove = true
+  document.removeEventListener("keydown", keydownHandler);
+  let score = document.querySelector(".scoresDiv")
+  score.innerHTML = "SCORES : " + gameState.scores
+  let time = document.querySelector(".timeDiv")
+  time.innerHTML = "TIMES : " + gameState.time
+  displayLose(gamePaused ? "none" : "flex")
 }
 
 function continueGame() {
@@ -87,19 +110,12 @@ export const getEnemies = (enemy) => {
 };
 
 function pauses() {
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      gamePaused = !gamePaused;
-
-      displayPause(gamePaused ? "none" : "flex");
-    }
-  });
-
+  document.addEventListener("keydown", keydownHandler);
 }
 function startGame() {
-  pauses()
   displayMenu('none')
-  const player = new Players(elem);
+  pauses()
+  player = new Players(elem);
   const removeEnemy = (enemy) => {
 
 
@@ -133,6 +149,7 @@ function startGame() {
 
     for (let j = 0; j < numRandom; j++) {
       let enemy;
+      // console.log(gameState.scores);
 
       if (counterShooter % enemyShootRandom === 0) {
         enemy = new Enemy(
@@ -252,23 +269,29 @@ function startGame() {
 
 }
 
-export function resetGame() {
-  gameState.lives = 3;
-  gameState.scores = 0;
-  gameState.time = 0;
 
-  // enemys = []
-  // console.log(enemys);
-  const pause = document.querySelector(".lose_menu");
-  if (pause) {
-    pause.remove()
-  }
-  // displayLose('none')
-  displayMenu('none')
-  displayPause('none')
-  enemys = []
+function resetGame() {
+  pauses()
+  displayLose("none");
+  displayMenu("none");
+  displayPause("none");
+  enemys.forEach((enemy) => {
+    enemy.CanShoot = false
+    enemy.remove()
+  });
+  bullets.forEach((bullet) => bullet.remove());
+  bulletEnemis.forEach((bullet) => bullet.remove());
+  player.resetPosition();
 
-  // Start the game
+  const playerImg = "/assets/player/playerC.gif";
+  executeDelay(() => {
+    player.el.src = playerImg
+    gameState.lives = 3;
+    new Lives();
+    gameState.scores = 0;
+    new Scores();
+    let sec = document.querySelector(".class_Times");
+    sec.innerHTML = 0;
+  }, 0.2)
   gamePaused = true;
-  // startGame();
 }

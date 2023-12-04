@@ -1,3 +1,4 @@
+import { setting } from "../../controlers/player/player.js";
 import { getEnemies, lose } from "../../index.js";
 import { collision, getCollBulletEnemis } from "../collision/getCollision.js";
 import { Lives } from "../stats/lives.js";
@@ -8,24 +9,25 @@ const playerDest = "/assets/player/playerDestroy.gif";
 const playerHit = "/assets/player/playerComb.gif";
 const playerImg = "/assets/player/playerC.gif";
 const playerSoundDestroy = "/assets/audio/Autres/sounds_explosion.wav";
-let audio = new Audio()
-export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
+let audio = new Audio();
+export function updateEnemies(enemys, bulletEnemis, player, y) {
   enemys.forEach((enemy) => {
     enemy.moveEnemy();
     if (collision(player, enemy)) {
       console.log("Collision avec le joueur");
       player.el.src = playerDest;
-
+      // console.log(gameState.scores);
       audio.play(playerSoundDestroy);
       enemy.remove();
+      setting.canMove = false
       executeDelay(() => {
-
-        player.remove();
+        player.el.src = ''
       }, 1);
-      lose()
+      executeDelay(() => {
+        lose();
+      }, 0.5);
       return;
     }
-
     const bullet = getEnemies();
 
     if (bullet) {
@@ -38,7 +40,7 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
       console.log("Collision entre le player et le projectile de l'enemis");
       // bulletEnemis.splice(bulletEnemis.indexOf(bullet), 1);
       bulletEnemi.remove();
-      new Lives()
+      new Lives();
       gameState.lives--;
       new Lives();
       player.el.src = playerHit;
@@ -54,11 +56,12 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
         executeDelay(() => {
           player.remove();
         }, 1);
-        lose()
+        executeDelay(() => {
+          lose();
+        }, 0.5);
       }
       return;
     }
-
     // Vérifier si l'ennemi est sorti de l'écran
     if (enemy.y >= window.innerHeight + y + 100) {
       enemy.remove();
@@ -79,12 +82,14 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
         executeDelay(() => {
           player.remove();
         }, 1);
-        lose()
+        executeDelay(() => {
+          lose();
+        }, 0.5);
       }
     }
   });
 }
 
-function executeDelay(callback, delayInSeconds) {
+export function executeDelay(callback, delayInSeconds) {
   setTimeout(callback, delayInSeconds * 1000);
 }
