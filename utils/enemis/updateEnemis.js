@@ -1,61 +1,90 @@
-import { getEnemis, resetGame } from "../../index.js";
+import { getEnemies, lose } from "../../index.js";
 import { collision, getCollBulletEnemis } from "../collision/getCollision.js";
+import { Lives } from "../stats/lives.js";
+import { gameState } from "../stats/variables.js";
+import { Audio } from "/controlers/audios/audio.js";
 
-// Fonction pour mettre à jour les ennemis et vérifier les collisions
+const playerDest = "/assets/player/playerDestroy.gif";
+const playerHit = "/assets/player/playerComb.gif";
+const playerImg = "/assets/player/playerC.gif";
+const playerSoundDestroy = "/assets/audio/Autres/sounds_explosion.wav";
+let audio = new Audio()
 export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
   enemys.forEach((enemy) => {
     enemy.moveEnemy();
-
-    // Vérifier la collision avec le joueur
     if (collision(player, enemy)) {
-      const playerDest = "/assets/player/playerDestroy.gif";
-      // Gérer la collision avec le joueur ici (par exemple, réduire la vie)
       console.log("Collision avec le joueur");
       player.el.src = playerDest;
-      setTimeout(() => {
-        player.remove();
-        const playAgain = window.confirm(
-          "Vous avez perdu. Voulez-vous rejouer ?"
-        );
-        if (playAgain) {
-          resetGame();
-        }
-      }, 1000);
+
+      audio.play(playerSoundDestroy);
       enemy.remove();
+      executeDelay(() => {
+
+        player.remove();
+      }, 1);
+      lose()
       return;
     }
 
-    // Vérifier la collision avec les balles du joueur
-    const bullet = getEnemis(bullets, enemy);
-    if (enemys.length === 0) {
-      setTimeout(() => {
-        const playAgain = window.confirm(
-          "Partie terminer . Voulez-vous rejouer ?"
-        );
-      }, 16);
-    }
-    if (bullet && !bullet.isAlien) {
+    const bullet = getEnemies();
+
+    if (bullet) {
       enemys.splice(enemys.indexOf(enemy), 1);
       bullet.remove();
     }
 
-    
     const bulletEnemi = getCollBulletEnemis(player, bulletEnemis);
     if (bulletEnemi) {
       console.log("Collision entre le player et le projectile de l'enemis");
-      bulletEnemis.splice(bulletEnemis.indexOf(bullet), 1);
-      const playAgain = window.confirm(
-        "BOOM BOMM BOMM !!! . Voulez-vous rejouer ?"
-      );
-      // player.remove();
+      // bulletEnemis.splice(bulletEnemis.indexOf(bullet), 1);
+      bulletEnemi.remove();
+      new Lives()
+      gameState.lives--;
+      new Lives();
+      player.el.src = playerHit;
+      executeDelay(() => {
+        player.el.src = playerImg;
+      }, 1);
+
+      if (gameState.lives <= 0) {
+        player.el.src = playerDest;
+        audio.play(playerSoundDestroy);
+
+        enemy.remove();
+        executeDelay(() => {
+          player.remove();
+        }, 1);
+        lose()
+      }
       return;
     }
 
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y + 200) {
+    if (enemy.y >= window.innerHeight + y + 100) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
+      new Lives();
+      gameState.lives--;
+      new Lives();
+      player.el.src = playerHit;
+      executeDelay(() => {
+        player.el.src = playerImg;
+      }, 1);
       console.log("Ennemi sorti de l'écran");
+      if (gameState.lives <= 0) {
+        player.el.src = playerDest;
+        audio.play(playerSoundDestroy);
+
+        enemy.remove();
+        executeDelay(() => {
+          player.remove();
+        }, 1);
+        lose()
+      }
     }
   });
+}
+
+function executeDelay(callback, delayInSeconds) {
+  setTimeout(callback, delayInSeconds * 1000);
 }

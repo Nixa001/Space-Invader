@@ -1,4 +1,5 @@
 import { gameState } from "../utils/stats/variables.js";
+import { minutes } from "../index.js";
 const navBar = ["Pause", "Times: ", "Scores", "Lives"];
 /* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
 correspondants. */
@@ -25,26 +26,17 @@ export class Background {
         this.span.innerText = gameState.time;
         this.span.id = "id-" + navBar[i];
         this.span.className = "class_" + 'Times';
-        this.li.appendChild(this.span);
-      }
-      if (i === 3) {
-        this.span = document.createElement("span");
-        this.span.innerText = ": " + 3;
-        this.span.id = "id-" + navBar[i];
-        this.span.className = "class_" + "Times";
-
-        // creation de l'element pour les minutes
-        this.min = document.createElement("span");
-        this.min.innerText = minutes;
-        this.min.className = "min";
-        this.li.appendChild(this.min);
-        //----------------------------------
-        this.p = document.createElement("span");
-        this.p.innerText = " : ";
-        this.p.className = "min";
-        this.li.appendChild(this.p);
-        //----------------------------------
-
+          // creation de l'element pour les minutes
+          this.min = document.createElement("span");
+          this.min.innerText = minutes;
+          this.min.className = "min";
+          this.li.appendChild(this.min);
+          //----------------------------------
+          this.p = document.createElement("span");
+          this.p.innerText = " : ";
+          this.p.className = "min";
+          this.li.appendChild(this.p);
+          //----------------------------------
         this.li.appendChild(this.span);
       }
       if (i === 3) {

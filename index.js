@@ -15,6 +15,7 @@ import { gameState } from "./utils/stats/variables.js";
 // import { getEnemies } from "./utils/collision/getCollision.js";
 
 // ------------------------------------VARIABLES --------------------------------
+export let minutes = 0;
 export let time = 0;
 let gamePaused = true;
 const bg = new Background();
@@ -252,7 +253,7 @@ function startGame() {
 
 }
 
-export function resetGame() {
+export function resetGqame() {
   gameState.lives = 3;
   gameState.scores = 0;
   gameState.time = 0;
