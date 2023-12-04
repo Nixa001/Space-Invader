@@ -8,8 +8,8 @@ const playerDest = "/assets/player/playerDestroy.gif";
 const playerHit = "/assets/player/playerComb.gif";
 const playerImg = "/assets/player/playerC.gif";
 const playerSoundDestroy = "/assets/audio/Autres/sounds_explosion.wav";
-let audio = new Audio()
-export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
+let audio = new Audio();
+export function updateEnemies(enemys, bulletEnemis, player, y) {
   enemys.forEach((enemy) => {
     enemy.moveEnemy();
     if (collision(player, enemy)) {
@@ -19,10 +19,9 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
       audio.play(playerSoundDestroy);
       enemy.remove();
       executeDelay(() => {
-
-        player.remove();
+        // player.remove();
       }, 1);
-      lose()
+      lose();
       return;
     }
 
@@ -38,7 +37,7 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
       console.log("Collision entre le player et le projectile de l'enemis");
       // bulletEnemis.splice(bulletEnemis.indexOf(bullet), 1);
       bulletEnemi.remove();
-      new Lives()
+      new Lives();
       gameState.lives--;
       new Lives();
       player.el.src = playerHit;
@@ -54,7 +53,7 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
         executeDelay(() => {
           player.remove();
         }, 1);
-        lose()
+        lose();
       }
       return;
     }
@@ -78,7 +77,7 @@ export function updateEnemies(enemys, bulletEnemis, player, bullets, y) {
         executeDelay(() => {
           player.remove();
         }, 1);
-        lose()
+        lose();
       }
     }
   });

@@ -47,4 +47,8 @@ Players. */
       this.setY(this.y + this.SPEED);
     }
   }
+  resetPosition() {
+    this.setX(window.innerWidth / 2);
+    this.setY(window.innerHeight - 200);
+  }
 }
