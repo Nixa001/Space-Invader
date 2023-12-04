@@ -5,7 +5,7 @@ import { Bullet } from "./projectile.js";
 // export const bullets = [];
 let interval = true;
 const sonPlayers = "/assets/audio/Player/Game_assets_laser.wav";
-let bullet = "/assets/Projectiles/laserGreen.png";
+let bullet = "/assets/Projectiles/laserGreen.webp";
 
 export function move(player, keys, elem, x, y, bullets, audio) {
 
@@ -21,14 +21,15 @@ export function move(player, keys, elem, x, y, bullets, audio) {
   }
 
   if (keys[" "] && interval) {
+    let audio = new Audio()
+    audio.play(sonPlayers);
     interval = false;
     createBullet(x, y, elem, bullets, audio, bullet, "bullet");
-    audio.play(sonPlayers);
-
+    
     setTimeout(() => {
       interval = true;
-      // myAudio.remove();
-    }, 100);
+      audio.remove(sonPlayers);
+    }, 150);
   }
 
   // Mettez à jour les balles existantes

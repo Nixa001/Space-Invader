@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Nova+Square&display=swap");
+
 @font-face {
   font-family: "Zero";
   font-style: normal;
@@ -6,6 +7,7 @@
   src: local(""), url("/assets/font/Zero.ttf") format("woff2"),
     url("/assets/font/ZeroFilled.ttf") format("woff");
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +22,7 @@ body {
 .game-container {
   width: 100%;
   height: 100%;
-  background-image: url(../assets/bg/backgroud.png);
+  background-image: url(../assets/bg/background.png);
   display: flex;
   flex-direction: column;
 }
@@ -38,45 +40,62 @@ body {
 }
 .bullet {
   position: absolute;
-  left: 15px;
-  width: 40px;
+  left: 32px;
+  width: 7px;
   /* height: 100px; */
 }
 .enemy {
   width: 50px;
   height: 50px;
   position: absolute;
-  top: 0px;
+  top: -100px;
+  z-index: 0;
   /* background-color: red; */
 }
+
 .bulletEnemis {
   position: absolute;
-  width: 40px;
-  /* left: 400px; */
+  width: 5px;
+  left: 20px;
 }
-.game_menu {
+
+.game_menu,
+.pause_menu,
+.lose_menu {
   font-family: "Zero", sans-serif;
-  /* position: absolute; */
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: #000000a6;
+  background: #000000b9;
   margin: auto;
+  z-index: 2;
 }
+
 .game_menu h1 {
   font-size: 200px;
   color: #fff;
 }
-.game_menu h2 {
+
+.game_menu h2,
+.pause_menu h2,
+.lose_menu h2 {
   font-size: 100px;
   color: #fff;
 }
+.lose_menu h3{
+  /* font-family: 'Nova Square'; */
+  font-size: 40px;
+}
+
 ul {
   margin-top: 30px;
+  z-index: 1;
 }
+
 button {
   width: 150px;
   height: 50px;
@@ -120,6 +139,7 @@ button:hover:before,
 button:hover:after {
   width: 100%;
 }
+
 button:hover {
   font-size: 20px;
 }
