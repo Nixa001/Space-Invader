@@ -12,12 +12,12 @@ export class LoseMenu {
         this.scoresdiv = document.createElement('h3')
         this.scoresdiv.className = 'scoresDiv'
         console.log(gameState.scores);
-        this.scoresdiv.innerText = "SCORES: " + gameState.scores
+        this.scoresdiv.innerText = "SCORES: ${gameState.scores} XP"
         this.container.appendChild(this.scoresdiv);
 
         this.timediv = document.createElement('h3')
         this.timediv.className = 'timeDiv'
-        this.timediv.innerText = "TIMES: " + gameState.time
+        this.timediv.innerText = "TIMES: ${minutes} ${gameState.time}"
         this.container.appendChild(this.timediv);
 
         this.restartButton = document.createElement("button");
