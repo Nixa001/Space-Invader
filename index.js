@@ -19,22 +19,23 @@ import { Scores } from "./utils/stats/scores.js";
 // ------------------------------------VARIABLES --------------------------------
 export let minutes = 0;
 export let time = 0;
-let IsLose = false
+let IsLose = false;
 let gamePaused = true;
 const bg = new Background();
 const elem = document.querySelector(".game-container");
 const enemyBullet = "/assets/Projectiles/laser1.webp";
-const soundDestroyEnemy = "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
+const soundDestroyEnemy =
+  "/assets/audio/Autres/Space Invaders_sounds_InvaderHit.wav";
 export const audio = new Audio(elem);
 let x = 0;
 let y = 0;
 let menu;
 let pause;
 let loseMenu;
-let enemyShootRandom
+let enemyShootRandom;
 let player;
 export let CanPause = false;
-const enemys = [];
+let enemys = [];
 let bullets = [];
 let bulletEnemis = [];
 const sonEnmys = "/assets/audio/Autres/sounds_shoot.wav";
@@ -42,16 +43,14 @@ const imageEnemiFire = "/assets/enemy/enemy-boss-4.webp";
 const imageEnmie = "/assets/enemy/Enemy-2.png";
 let counterShooter = 0;
 
-
 // ------------------------------------FIN VARIABLES --------------------------------
-
 
 document.addEventListener("DOMContentLoaded", () => {
   menu = new Menu("gameContainer", startGame);
   pause = new PauseMenu("gameContainer", continueGame, resetGame);
-  loseMenu = new LoseMenu("gameContainer", displayHome, resetGame)
-  displayPause('none')
-  displayLose('none')
+  loseMenu = new LoseMenu("gameContainer", displayHome, resetGame);
+  displayPause("none");
+  displayLose("none");
 });
 
 // Function to display or hide the menu
@@ -66,7 +65,6 @@ function displayPause(displayStyle) {
   const pause = document.querySelector(".pause_menu");
   if (pause) {
     pause.style.display = displayStyle;
-
   }
 }
 function displayLose(displayStyle) {
@@ -80,17 +78,18 @@ const keydownHandler = (event) => {
     gamePaused = !gamePaused;
     displayPause(gamePaused ? "none" : "flex");
   }
-}
+};
 export function lose() {
+  // resetGame();
   gamePaused = !gamePaused;
-  setting.canMove = true
+  setting.canMove = true;
   document.removeEventListener("keydown", keydownHandler);
-  let score = document.querySelector(".scoresDiv")
-  score.innerHTML = `SCORES: ${gameState.scores} XP`
-  let time = document.querySelector(".timeDiv")
-  let timeMin = document.querySelector(".min")
-  time.innerHTML = `TIMES    ${timeMin.innerHTML} : ${gameState.time} s`
-  displayLose(gamePaused ? "none" : "flex")
+  let score = document.querySelector(".scoresDiv");
+  score.innerHTML = `SCORES: ${gameState.scores} XP`;
+  let time = document.querySelector(".timeDiv");
+  let timeMin = document.querySelector(".min");
+  time.innerHTML = `TIMES    ${timeMin.innerHTML} : ${gameState.time} s`;
+  displayLose(gamePaused ? "none" : "flex");
 }
 
 function continueGame() {
@@ -117,12 +116,10 @@ function pauses() {
   document.addEventListener("keydown", keydownHandler);
 }
 function startGame() {
-  displayMenu('none')
-  pauses()
+  displayMenu("none");
+  pauses();
   player = new Players(elem);
   const removeEnemy = (enemy) => {
-
-
     enemys.splice(enemys.indexOf(enemy), 1);
     enemy.remove();
   };
@@ -131,7 +128,6 @@ function startGame() {
     bullets.splice(bullets.indexOf(bullet), 1);
     bullet.remove();
   };
-
 
   // Initialisation des constantes
   const minEnemyShootRandom = 1;
@@ -148,14 +144,10 @@ function startGame() {
       minEnemyShootRandom,
       maxEnemyShootRandom - Math.floor(counterShooter / 20)
     );
-    // console.log(enemyShootRandom);
-    console.log(counterShooter);
     const numRandom = getRandom(1, 2);
 
     for (let j = 0; j < numRandom; j++) {
       let enemy;
-      // console.log(gameState.scores);
-
       if (counterShooter % enemyShootRandom === 0) {
         enemy = new Enemy(
           j * 60,
@@ -188,8 +180,6 @@ function startGame() {
       }
     }
   }
-
-
 
   let interval = true;
   function shootEnemies() {
@@ -226,7 +216,6 @@ function startGame() {
     enemisBulletFire(bulletEnemis);
   }
 
-
   // -----------------------------------------------
   const keys = {
     ArrowLeft: false,
@@ -249,11 +238,15 @@ function startGame() {
    * La fonction « animer » met à jour les ennemis, déplace le joueur et demande des images d'animation
    * pour créer une boucle d'animation.
    */
-  let k = 0
+  let k = 0;
   function animate() {
+    if (IsLose) {
+      counterShooter = 0;
+      IsLose = !IsLose;
+    }
     if (gamePaused) {
       timeGame++;
-      k+=3;
+      k += 3;
       elem.style.backgroundPositionY = k + "px";
       updateEnemies(enemys, bulletEnemis, player, bullets, y);
       move(player, keys, elem, player.x, player.y, bullets, audio);
@@ -265,33 +258,35 @@ function startGame() {
         timeGame = 0;
       }
     }
-    if (IsLose) {
-      counterShooter = 0
-      IsLose = !IsLose
-    }
 
     requestAnimationFrame(animate);
   }
   animate();
 }
 
-function resetGame() {
-  pauses()
+/**
+ * La fonction `resetGame` réinitialise le jeu en supprimant tous les ennemis et balles, en
+ * réinitialisant la position du joueur, en mettant à jour l'image du joueur, en réinitialisant les
+ * variables d'état du jeu et en mettant à jour l'affichage des vies et des scores.
+ */
+export function resetGame() {
+  pauses();
   displayLose("none");
   displayMenu("none");
   displayPause("none");
-  enemys.forEach((enemy) => {
-    enemy.CanShoot = false
-    enemy.remove()
-  });
+  enemys.forEach((enemy) => enemy.remove());
   bullets.forEach((bullet) => bullet.remove());
   bulletEnemis.forEach((bullet) => bullet.remove());
+
+  bullets = [];
+  bulletEnemis = [];
+  enemys = [];
   player.resetPosition();
 
   const playerImg = "/assets/player/playerC.gif";
   gamePaused = true;
   executeDelay(() => {
-    player.el.src = playerImg
+    player.el.src = playerImg;
     gameState.lives = 3;
     new Lives();
     gameState.scores = 0;
@@ -300,7 +295,7 @@ function resetGame() {
     let m = document.querySelector(".min");
     sec.innerHTML = 0;
     m.innerHTML = 0;
+  }, 0.2);
 
-  }, 0.2)
-  IsLose = true
+  IsLose = true;
 }
