@@ -38,7 +38,7 @@ let enemys = [];
 let bullets = [];
 let bulletEnemis = [];
 const sonEnmys = "/assets/audio/Autres/sounds_shoot.wav";
-const imageEnemiFire = "/assets/enemy/enemy-boss-4.webp";
+const imageEnemiFire = "/assets/enemy/enemy-boss-3.png";
 const imageEnmie = "/assets/enemy/Enemy-2.png";
 let counterShooter = 0;
 
@@ -84,10 +84,10 @@ export function lose() {
   setting.canMove = true;
   document.removeEventListener("keydown", keydownHandler);
   let score = document.querySelector(".scoresDiv");
-  score.innerHTML = `SCORES: ${gameState.scores} XP`;
+  score.innerHTML = `SCORES: ${gameState.scores}XP`;
   let time = document.querySelector(".timeDiv");
   let timeMin = document.querySelector(".min");
-  time.innerHTML = `TIMES    ${timeMin.innerHTML} : ${gameState.time} s`;
+  time.innerHTML = `TIMES:    0${timeMin.innerHTML}:${gameState.time}s`;
   displayLose(gamePaused ? "none" : "flex");
 }
 
@@ -131,7 +131,10 @@ function startGame() {
   // Initialisation des constantes
   const minEnemyShootRandom = 1;
   const maxEnemyShootRandom = 5;
+  const minEnemy = 1;
+  let maxEnemy = 2;
   let counterShooter = 0;
+  let level = 30;
 
   function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -143,7 +146,7 @@ function startGame() {
       minEnemyShootRandom,
       maxEnemyShootRandom - Math.floor(counterShooter / 20)
     );
-    const numRandom = getRandom(1, 2);
+    const numRandom = getRandom(minEnemy, maxEnemy);
 
     for (let j = 0; j < numRandom; j++) {
       let enemy;
@@ -157,7 +160,10 @@ function startGame() {
           removeBullet,
           imageEnemiFire
         );
-
+        if (maxEnemy <= 4 && counterShooter >= level) {
+          maxEnemy++;
+          level += 30;
+        }
         enemy.CanShoot = true;
         tabEnemis.push(enemy);
 

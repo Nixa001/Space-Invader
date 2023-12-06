@@ -17,7 +17,7 @@ export class LoseMenu {
 
         this.timediv = document.createElement('h3')
         this.timediv.className = 'timeDiv'
-        this.timediv.innerText = "TIMES: ${minutes} ${gameState.time}"
+        this.timediv.innerText = "TIMES : ${minutes} ${gameState.time}"
         this.container.appendChild(this.timediv);
 
         this.restartButton = document.createElement("button");

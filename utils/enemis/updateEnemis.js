@@ -61,7 +61,7 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
       }
     }
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + 100) {
+    if (enemy.y >= window.innerHeight + 200) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
       new Lives();
