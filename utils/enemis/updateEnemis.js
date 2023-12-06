@@ -1,4 +1,5 @@
-import { getEnemies, lose } from "../../index.js";
+import { setting } from "../../controlers/player/player.js";
+import { getEnemies, lose, resetGame } from "../../index.js";
 import { collision, getCollBulletEnemis } from "../collision/getCollision.js";
 import { Lives } from "../stats/lives.js";
 import { gameState } from "../stats/variables.js";
@@ -15,16 +16,17 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
     if (collision(player, enemy)) {
       console.log("Collision avec le joueur");
       player.el.src = playerDest;
-
       audio.play(playerSoundDestroy);
       enemy.remove();
+      setting.canMove = false
       executeDelay(() => {
-        // player.remove();
+        player.el.src = ''
       }, 1);
-      lose();
+      executeDelay(() => {
+        lose();
+      }, 0.5);
       return;
     }
-
     const bullet = getEnemies();
 
     if (bullet) {
@@ -48,17 +50,18 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
       if (gameState.lives <= 0) {
         player.el.src = playerDest;
         audio.play(playerSoundDestroy);
-
-        enemy.remove();
-        executeDelay(() => {
-          player.remove();
-        }, 1);
-        lose();
-      }
-      return;
+       enemys = []
+          executeDelay(() => {
+            player.remove();
+          }, 1);
+          executeDelay(() => {
+            lose();
+          }, 0.5);
+        }
+        return;
     }
     // Vérifier si l'ennemi est sorti de l'écran
-    if (enemy.y >= window.innerHeight + y + 100) {
+    if (enemy.y >= window.innerHeight + 100) {
       enemy.remove();
       enemys.splice(enemys.indexOf(enemy), 1);
       new Lives();
@@ -72,17 +75,19 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
       if (gameState.lives <= 0) {
         player.el.src = playerDest;
         audio.play(playerSoundDestroy);
-
-        enemy.remove();
         executeDelay(() => {
-          player.remove();
+          // player.remove();
         }, 1);
-        lose();
+        
+        bulletEnemis.forEach(enemy => enemy.remove());
+          executeDelay(() => {
+            lose();
+          }, 0.5);
       }
     }
   });
 }
 
-function executeDelay(callback, delayInSeconds) {
+export function executeDelay(callback, delayInSeconds) {
   setTimeout(callback, delayInSeconds * 1000);
 }

@@ -1,3 +1,4 @@
+import { audio } from "../../index.js";
 import { Audio } from "../audios/audio.js";
 import { Bullet } from "./projectile.js";
 
@@ -6,7 +7,8 @@ let interval = true;
 const sonPlayers = "/assets/audio/Player/Game_assets_laser.wav";
 let bullet = "/assets/Projectiles/laserGreen.webp";
 
-export function move(player, keys, elem, x, y, bullets) {
+export function move(player, keys, elem, x, y, bullets, audio) {
+
   if (keys["ArrowRight"]) {
     player.moveRight(elem);
   } else if (keys["ArrowLeft"]) {
@@ -19,11 +21,11 @@ export function move(player, keys, elem, x, y, bullets) {
   }
 
   if (keys[" "] && interval) {
-    let audio = new Audio();
+    let audio = new Audio()
     audio.play(sonPlayers);
     interval = false;
     createBullet(x, y, elem, bullets, audio, bullet, "bullet");
-
+    
     setTimeout(() => {
       interval = true;
       audio.remove(sonPlayers);
@@ -44,7 +46,7 @@ export function move(player, keys, elem, x, y, bullets) {
 // const bul = (bullets) => bullets;
 // console.log(bul);
 
-export function createBullet(x, y, elem, bullets, image, className) {
+export function createBullet(x, y, elem, bullets, audio, image, className) {
   const bullet = new Bullet(x, y, elem, image, className);
   // audio.play();
   bullets.push(bullet);

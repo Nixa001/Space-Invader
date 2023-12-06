@@ -1,11 +1,12 @@
 import { createBullet, move } from "./controlers/player/move.js";
-import { Players } from "./controlers/player/player.js";
+import { Players, setting } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
+import { getRandom } from "./utils/random/random.js";
 import { Enemy } from "./controlers/enemy/enemy.js";
 import { enemisBulletFire } from "./utils/bullets/bulletEnemis.js";
 import { runtime } from "./utils/time/runTime.js";
-import { updateEnemies } from "./utils/enemis/updateEnemis.js";
+import { executeDelay, updateEnemies } from "./utils/enemis/updateEnemis.js";
 import { collision } from "./utils/collision/getCollision.js";
 import { Menu } from "./views/menu/menu.js";
 import { PauseMenu } from "./views/menu/pauseMenu.js";
@@ -13,10 +14,11 @@ import { LoseMenu } from "./views/menu/loseMenu.js";
 import { gameState } from "./utils/stats/variables.js";
 import { Lives } from "./utils/stats/lives.js";
 import { Scores } from "./utils/stats/scores.js";
-// import { getEnemies } from "./utils/collision/getCollision.js";
 
 // ------------------------------------VARIABLES --------------------------------
+export let minutes = 0;
 export let time = 0;
+let IsLose = false;
 let gamePaused = true;
 const bg = new Background();
 const elem = document.querySelector(".game-container");
@@ -27,27 +29,28 @@ export const audio = new Audio(elem);
 let x = 0;
 let y = 0;
 let menu;
+let pause;
+let loseMenu;
+let enemyShootRandom;
 let player;
+export let CanPause = false;
 let enemys = [];
 let bullets = [];
 let bulletEnemis = [];
 const sonEnmys = "/assets/audio/Autres/sounds_shoot.wav";
 const imageEnemiFire = "/assets/enemy/enemy-boss-4.webp";
 const imageEnmie = "/assets/enemy/Enemy-2.png";
+let counterShooter = 0;
 
 // ------------------------------------FIN VARIABLES --------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
   menu = new Menu("gameContainer", startGame);
-  const pause = new PauseMenu("gameContainer", continueGame, resetGame);
-  const loseMenu = new LoseMenu("gameContainer", displayHome, resetGame);
+  pause = new PauseMenu("gameContainer", continueGame, resetGame);
+  loseMenu = new LoseMenu("gameContainer", displayHome, resetGame);
   displayPause("none");
   displayLose("none");
 });
-export function lose() {
-  gamePaused = !gamePaused;
-  displayLose(gamePaused ? "none" : "flex");
-}
 
 // Function to display or hide the menu
 function displayMenu(displayStyle) {
@@ -57,18 +60,36 @@ function displayMenu(displayStyle) {
 function displayHome() {
   location.reload();
 }
-
-const displayPause = (displayStyle) => {
-  const pauseElement = document.querySelector(".pause_menu");
-  pauseElement.style.display = displayStyle;
-};
-
-const displayLose = (displayStyle) => {
-  const loseElement = document.querySelector(".lose_menu");
-  if (loseElement) {
-    loseElement.style.display = displayStyle;
+function displayPause(displayStyle) {
+  const pause = document.querySelector(".pause_menu");
+  if (pause) {
+    pause.style.display = displayStyle;
+  }
+}
+function displayLose(displayStyle) {
+  const pause = document.querySelector(".lose_menu");
+  if (pause) {
+    pause.style.display = displayStyle;
+  }
+}
+const keydownHandler = (event) => {
+  if (event.key === "Escape") {
+    gamePaused = !gamePaused;
+    displayPause(gamePaused ? "none" : "flex");
   }
 };
+export function lose() {
+  // resetGame();
+  gamePaused = !gamePaused;
+  setting.canMove = true;
+  document.removeEventListener("keydown", keydownHandler);
+  let score = document.querySelector(".scoresDiv");
+  score.innerHTML = `SCORES: ${gameState.scores} XP`;
+  let time = document.querySelector(".timeDiv");
+  let timeMin = document.querySelector(".min");
+  time.innerHTML = `TIMES    ${timeMin.innerHTML} : ${gameState.time} s`;
+  displayLose(gamePaused ? "none" : "flex");
+}
 
 function continueGame() {
   gamePaused = !gamePaused;
@@ -91,16 +112,11 @@ export const getEnemies = (enemy) => {
 };
 
 function pauses() {
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      gamePaused = !gamePaused;
-      displayPause(gamePaused ? "none" : "flex");
-    }
-  });
+  document.addEventListener("keydown", keydownHandler);
 }
 function startGame() {
-  pauses();
   displayMenu("none");
+  pauses();
   player = new Players(elem);
   const removeEnemy = (enemy) => {
     enemys.splice(enemys.indexOf(enemy), 1);
@@ -123,16 +139,14 @@ function startGame() {
 
   function callEnemy(tabEnemis) {
     counterShooter++;
-    const enemyShootRandom = Math.max(
+    enemyShootRandom = Math.max(
       minEnemyShootRandom,
       maxEnemyShootRandom - Math.floor(counterShooter / 20)
     );
-
     const numRandom = getRandom(1, 2);
 
     for (let j = 0; j < numRandom; j++) {
       let enemy;
-
       if (counterShooter % enemyShootRandom === 0) {
         enemy = new Enemy(
           j * 60,
@@ -180,7 +194,7 @@ function startGame() {
             if (enemys.includes(enemy)) {
               createBullet(
                 enemy.x,
-                enemy.y,
+                enemy.y - 50,
                 elem,
                 bulletEnemis,
                 sonEnmys,
@@ -220,16 +234,20 @@ function startGame() {
 
   let timeGame = 0;
   /**
-   * La fonction « animate » met à jour les ennemis, déplace le joueur et demande des images d'animation
+   * La fonction « animer » met à jour les ennemis, déplace le joueur et demande des images d'animation
    * pour créer une boucle d'animation.
    */
   let k = 0;
   function animate() {
+    if (IsLose) {
+      counterShooter = 0;
+      IsLose = !IsLose;
+    }
     if (gamePaused) {
       timeGame++;
-      k++;
+      k += 3;
       elem.style.backgroundPositionY = k + "px";
-      updateEnemies(enemys, bulletEnemis, player, y);
+      updateEnemies(enemys, bulletEnemis, player, bullets, y);
       move(player, keys, elem, player.x, player.y, bullets, audio);
       shootEnemies();
       // bulletEnemys();
@@ -242,26 +260,41 @@ function startGame() {
 
     requestAnimationFrame(animate);
   }
-
   animate();
 }
 
-function resetGame() {
-  gameState.lives = 3;
-  new Lives();
-  gameState.scores = 0;
-  new Scores();
-  gameState.time = 0;
-  let sec = document.querySelector(".class_Times");
-  sec.innerHTML = 0;
-
+/**
+ * La fonction `resetGame` réinitialise le jeu en supprimant tous les ennemis et balles, en
+ * réinitialisant la position du joueur, en mettant à jour l'image du joueur, en réinitialisant les
+ * variables d'état du jeu et en mettant à jour l'affichage des vies et des scores.
+ */
+export function resetGame() {
+  pauses();
   displayLose("none");
   displayMenu("none");
   displayPause("none");
   enemys.forEach((enemy) => enemy.remove());
   bullets.forEach((bullet) => bullet.remove());
+  bulletEnemis.forEach((bullet) => bullet.remove());
+
+  bullets = [];
+  bulletEnemis = [];
+  enemys = [];
   player.resetPosition();
 
-  // Start the game
+  const playerImg = "/assets/player/playerC.gif";
   gamePaused = true;
+  executeDelay(() => {
+    player.el.src = playerImg;
+    gameState.lives = 3;
+    new Lives();
+    gameState.scores = 0;
+    new Scores();
+    let sec = document.querySelector(".class_Times");
+    let m = document.querySelector(".min");
+    sec.innerHTML = 0;
+    m.innerHTML = 0;
+  }, 0.2);
+
+  IsLose = true;
 }
