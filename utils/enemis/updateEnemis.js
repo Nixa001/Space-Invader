@@ -18,13 +18,13 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
       player.el.src = playerDest;
       audio.play(playerSoundDestroy);
       enemy.remove();
-      setting.canMove = false
+      setting.canMove = false;
       executeDelay(() => {
-        player.el.src = ''
+        player.el.src = "";
       }, 1);
       executeDelay(() => {
         lose();
-      }, 0.5);
+      }, 0);
       return;
     }
     const bullet = getEnemies();
@@ -50,15 +50,15 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
       if (gameState.lives <= 0) {
         player.el.src = playerDest;
         audio.play(playerSoundDestroy);
-       enemys = []
-          executeDelay(() => {
-            player.remove();
-          }, 1);
-          executeDelay(() => {
-            lose();
-          }, 0.5);
-        }
+        enemys = [];
+        executeDelay(() => {
+          player.el.src = "";
+        }, 1);
+        executeDelay(() => {
+          lose();
+        }, 0);
         return;
+      }
     }
     // Vérifier si l'ennemi est sorti de l'écran
     if (enemy.y >= window.innerHeight + 100) {
@@ -77,12 +77,13 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
         audio.play(playerSoundDestroy);
         executeDelay(() => {
           // player.remove();
+          player.el.src = "";
         }, 1);
-        
-        bulletEnemis.forEach(enemy => enemy.remove());
-          executeDelay(() => {
-            lose();
-          }, 0.5);
+
+        bulletEnemis.forEach((enemy) => enemy.remove());
+        executeDelay(() => {
+          lose();
+        }, 0);
       }
     }
   });

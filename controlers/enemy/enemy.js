@@ -9,8 +9,8 @@ const LEFT = "left";
 const RIGHT = "right";
 const direction = [LEFT, RIGHT];
 let num = getRandom(1, 7);
-let SPEED_V = 1
-let SPEED_H = 2
+let SPEED_V = 8
+let SPEED_H = 1.5
 
 export class Enemy extends Entity {
   constructor(x, y, elem, getEnemies, removeEnemy, removeBullet, image) {
