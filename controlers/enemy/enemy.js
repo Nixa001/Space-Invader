@@ -9,7 +9,7 @@ const LEFT = "left";
 const RIGHT = "right";
 const direction = [LEFT, RIGHT];
 let num = getRandom(1, 7);
-let SPEED_V = 5
+let SPEED_V = 1
 let SPEED_H = 2
 
 export class Enemy extends Entity {

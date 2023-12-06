@@ -14,7 +14,6 @@ import { LoseMenu } from "./views/menu/loseMenu.js";
 import { gameState } from "./utils/stats/variables.js";
 import { Lives } from "./utils/stats/lives.js";
 import { Scores } from "./utils/stats/scores.js";
-// import { getEnemies } from "./utils/collision/getCollision.js";
 
 // ------------------------------------VARIABLES --------------------------------
 export let minutes = 0;

@@ -7,6 +7,7 @@
   src: local(""), url("/assets/font/Zero.ttf") format("woff2"),
     url("/assets/font/ZeroFilled.ttf") format("woff");
 }
+
 @font-face {
   font-family: "Rune";
   font-style: normal;
@@ -91,7 +92,7 @@ body {
 
 .game_menu h1 {
   font-family: "Zero";
-  font-size: 200px;
+  font-size: 140px;
   color: #fff;
 }
 
@@ -102,13 +103,19 @@ body {
   font-size: 100px;
   color: #fff;
 }
-.lose_menu h3{
+
+h3 {
+  font-family: "Zero";
+  font-size: 50px;
+}
+
+.lose_menu h3 {
   font-family: 'Rune';
   font-size: 40px;
 }
 
 ul {
-  color:rgb(172, 172, 172);
+  color: rgb(172, 172, 172);
   font-family: "Rune";
   font-size: 35px;
   margin-top: 30px;
@@ -164,4 +171,25 @@ button:hover:after {
 
 button:hover {
   font-size: 25px;
+}
+
+p {
+  /* font-family: "Zero"; */
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.eschap {
+  width: 40px;
+}
+
+.touches {
+  width: 60px;
+}
+
+.divEsc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
 }
