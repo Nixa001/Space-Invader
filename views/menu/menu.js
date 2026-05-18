@@ -1,3 +1,6 @@
+// views/menu/menu.js
+import { isMobile } from '../../utils/device/isMobile.js';
+
 let echap = "/assets/esc.png";
 let espace = "/assets/espace.png";
 let touchesD = "/assets/touchesc.png";
@@ -7,58 +10,21 @@ export class Menu {
         this.container = document.createElement("div");
         this.container.className = "game_menu";
         this.container.id = "gameMenu";
+
         this.header = document.createElement("h1");
         this.header.innerText = "SPACE INVADER";
         this.container.appendChild(this.header);
-        
+
         this.howtoplay = document.createElement("h3");
         this.howtoplay.innerText = "How to play ?";
         this.container.appendChild(this.howtoplay);
 
-        this.divEsc = document.createElement("div");
-        this.divEsc.className = "divEsc"
+        if (isMobile()) {
+            this._buildTouchInstructions();
+        } else {
+            this._buildKeyboardInstructions();
+        }
 
-        this.textEspace = document.createElement("p");
-        this.textEspace.className = "textEsc"
-        this.textEspace.innerText = "To Shoot :";
-
-        this.espace = document.createElement("img");
-        this.espace.className = "eschap"
-        this.espace.src = espace
-        this.divEsc.appendChild(this.textEspace)
-        this.divEsc.appendChild(this.espace)
-        this.container.appendChild(this.divEsc);
-
-        this.divEsc = document.createElement("div");
-        this.divEsc.className = "divEsc"
-        
-        this.textEsc = document.createElement("p");
-        this.textEsc.className = "textEsc"
-        this.textEsc.innerText = "Pause : ";
-        
-        this.eschap = document.createElement("img");
-        this.eschap.className = "eschap"
-        this.eschap.src = echap
-
-        this.divEsc.appendChild(this.textEsc)
-        this.divEsc.appendChild(this.eschap)
-        this.container.appendChild(this.divEsc);
-
-        this.divEsc = document.createElement("div");
-        this.divEsc.className = "divEsc"
-        
-        this.textEsc = document.createElement("p");
-        this.textEsc.className = "textEsc"
-        this.textEsc.innerText = "Moves Player : ";
-        
-        this.eschap = document.createElement("img");
-        this.eschap.className = "touches"
-        this.eschap.src = touchesD
-
-        this.divEsc.appendChild(this.textEsc)
-        this.divEsc.appendChild(this.eschap)
-        this.container.appendChild(this.divEsc);
-        
         this.startButton = document.createElement("button");
         this.startButton.innerText = "Start Game";
         this.startButton.addEventListener("click", () => {
@@ -69,10 +35,39 @@ export class Menu {
         this.container.appendChild(this.startButton);
         this.render(containerId);
     }
+
+    _buildTouchInstructions() {
+        const hint = document.createElement("p");
+        hint.className = "touch-hint";
+        hint.innerHTML = "◄ ▲ ▼ ► &nbsp; Move<br>FIRE &nbsp; Shoot<br>⏸ &nbsp; Pause";
+        this.container.appendChild(hint);
+    }
+
+    _buildKeyboardInstructions() {
+        const rows = [
+            { label: "To Shoot :", img: espace,  cls: "eschap" },
+            { label: "Pause :",    img: echap,   cls: "eschap" },
+            { label: "Move :",     img: touchesD, cls: "touches" },
+        ];
+        rows.forEach(({ label, img, cls }) => {
+            const div = document.createElement("div");
+            div.className = "divEsc";
+            const text = document.createElement("p");
+            text.className = "textEsc";
+            text.innerText = label;
+            const image = document.createElement("img");
+            image.className = cls;
+            image.src = img;
+            div.appendChild(text);
+            div.appendChild(image);
+            this.container.appendChild(div);
+        });
+    }
+
     render(containerId) {
         const existingContainer = document.getElementById(containerId);
         if (existingContainer) {
             existingContainer.appendChild(this.container);
-        } 
+        }
     }
 }
