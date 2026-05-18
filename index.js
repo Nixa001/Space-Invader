@@ -83,11 +83,12 @@ export function lose() {
   gamePaused = !gamePaused;
   setting.canMove = true;
   document.removeEventListener("keydown", keydownHandler);
-  let score = document.querySelector(".scoresDiv");
-  score.innerHTML = `SCORES: ${gameState.scores}XP`;
-  let time = document.querySelector(".timeDiv");
-  let timeMin = document.querySelector(".min");
-  time.innerHTML = `TIMES:    0${timeMin.innerHTML}:${gameState.time}s`;
+  const scoreEl = document.querySelector(".scoresDiv");
+  scoreEl.textContent = `SCORES: ${gameState.scores} XP`;
+  const timeEl = document.querySelector(".timeDiv");
+  const timeMin = document.querySelector(".min");
+  const timeSec = document.querySelector(".class_Times");
+  timeEl.textContent = `TEMPS: ${timeMin.textContent}:${timeSec.textContent}`;
   displayLose(gamePaused ? "none" : "flex");
 }
 
@@ -257,10 +258,11 @@ export function resetGame() {
     new Lives();
     gameState.scores = 0;
     new Scores();
-    let sec = document.querySelector(".class_Times");
-    let m = document.querySelector(".min");
-    sec.innerHTML = 0;
-    m.innerHTML = 0;
+    gameState.time = 0;
+    const sec = document.querySelector(".class_Times");
+    const m = document.querySelector(".min");
+    sec.textContent = "00";
+    m.textContent = "00";
   }, 0.2);
 
   IsLose = true;
