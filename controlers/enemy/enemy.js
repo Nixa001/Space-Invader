@@ -9,8 +9,15 @@ const LEFT = "left";
 const RIGHT = "right";
 const direction = [LEFT, RIGHT];
 let num = getRandom(1, 7);
-let SPEED_V = 0.9
-let SPEED_H = 1.7
+const INITIAL_SPEED_V = 0.9;
+const INITIAL_SPEED_H = 1.7;
+let SPEED_V = INITIAL_SPEED_V;
+let SPEED_H = INITIAL_SPEED_H;
+
+export function resetEnemySpeed() {
+  SPEED_V = INITIAL_SPEED_V;
+  SPEED_H = INITIAL_SPEED_H;
+}
 
 export class Enemy extends Entity {
   constructor(x, y, elem, getEnemies, removeEnemy, removeBullet, image) {

@@ -3,7 +3,7 @@ import { Players, setting } from "./controlers/player/player.js";
 import { Background } from "./views/background.js";
 import { Audio } from "./controlers/audios/audio.js";
 import { getRandom } from "./utils/random/random.js";
-import { Enemy } from "./controlers/enemy/enemy.js";
+import { Enemy, resetEnemySpeed } from "./controlers/enemy/enemy.js";
 import { enemisBulletFire } from "./utils/bullets/bulletEnemis.js";
 import { runtime } from "./utils/time/runTime.js";
 import { executeDelay, updateEnemies } from "./utils/enemis/updateEnemis.js";
@@ -235,6 +235,7 @@ function startGame() {
 }
 
 export function resetGame() {
+  resetEnemySpeed();
   pauses();
   displayLose("none");
   displayMenu("none");
