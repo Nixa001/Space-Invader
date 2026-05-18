@@ -14,11 +14,12 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
   enemys.forEach((enemy) => {
     enemy.moveEnemy();
     if (collision(player, enemy)) {
-      console.log("Collision avec le joueur");
       player.el.src = playerDest;
       audio.play(playerSoundDestroy);
       enemy.remove();
       setting.canMove = false;
+      triggerShake();
+      triggerHitFlash();
       executeDelay(() => {
         player.el.src = "";
       }, 1);
@@ -36,13 +37,13 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
 
     const bulletEnemi = getCollBulletEnemis(player, bulletEnemis);
     if (bulletEnemi) {
-      console.log("Collision entre le player et le projectile de l'enemis");
-      // bulletEnemis.splice(bulletEnemis.indexOf(bullet), 1);
       bulletEnemi.remove();
       new Lives();
       gameState.lives--;
       new Lives();
       player.el.src = playerHit;
+      triggerShake();
+      triggerHitFlash();
       executeDelay(() => {
         player.el.src = playerImg;
       }, 1);
@@ -91,4 +92,22 @@ export function updateEnemies(enemys, bulletEnemis, player, y) {
 
 export function executeDelay(callback, delayInSeconds) {
   setTimeout(callback, delayInSeconds * 1000);
+}
+
+export function triggerShake() {
+  const container = document.querySelector('.game-container');
+  if (!container) return;
+  container.classList.remove('shake');
+  void container.offsetWidth;
+  container.classList.add('shake');
+  container.addEventListener('animationend', () => container.classList.remove('shake'), { once: true });
+}
+
+export function triggerHitFlash() {
+  const flash = document.getElementById('hit-flash');
+  if (!flash) return;
+  flash.classList.remove('active');
+  void flash.offsetWidth;
+  flash.classList.add('active');
+  flash.addEventListener('animationend', () => flash.classList.remove('active'), { once: true });
 }

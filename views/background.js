@@ -49,6 +49,10 @@ export class Background {
       this.ul.appendChild(this.li);
     }
     this.element.appendChild(this.ul);
+    this.hitFlash = document.createElement('div');
+    this.hitFlash.className = 'hit-flash';
+    this.hitFlash.id = 'hit-flash';
+    this.element.appendChild(this.hitFlash);
     document.body.appendChild(this.element);
     // new Players(this.element);
   }
