@@ -397,3 +397,51 @@ p {
       0 0 40px #00cfff;
   }
 }
+
+/* ── HUD Bar ── */
+.hud {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.65);
+  border-bottom: 1px solid rgba(0, 200, 255, 0.25);
+  backdrop-filter: blur(6px);
+  flex-wrap: wrap;
+  gap: 8px;
+  z-index: 1;
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Zero", "Nova Square", monospace;
+  font-size: clamp(13px, 2.5vw, 20px);
+  letter-spacing: 2px;
+}
+
+.hud-icon {
+  opacity: 0.75;
+  font-size: 1em;
+}
+
+.hud-sep {
+  opacity: 0.6;
+  margin: 0 2px;
+}
+
+.hud-time {
+  color: #00cfff;
+  text-shadow: 0 0 8px #00cfff;
+}
+
+.hud-score {
+  color: #ffdd00;
+  text-shadow: 0 0 8px #ffdd00;
+}
+
+.hud-lives {
+  color: #ff4444;
+  text-shadow: 0 0 8px #ff4444;
+}
