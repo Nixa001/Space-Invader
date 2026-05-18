@@ -18,7 +18,7 @@ export class Entity {
    */
   setX(x) {
     this.x = x;
-    this.el.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
+    this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`;
   }
   /**
    * La fonction setY définit la coordonnée y d'un élément et met à jour sa position sur l'écran.
@@ -30,7 +30,7 @@ export class Entity {
 
   setY(y) {
     this.y = y;
-    this.el.style.transform = `translateX(${this.x}px) translateY(${this.y}px)`;
+    this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`;
   }
 
   /**

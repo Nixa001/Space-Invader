@@ -27,6 +27,7 @@ body {
   height: 100vh;
   color: white;
   overflow: hidden;
+  touch-action: none;
 }
 
 .game-container {
@@ -39,6 +40,7 @@ body {
 
 .game-container .player {
   width: 70px;
+  will-change: transform;
 }
 
 .game-container .list-group {
@@ -59,7 +61,8 @@ body {
   position: absolute;
   left: 32px;
   width: 7px;
-  filter: drop-shadow(0 0 8px #00ff88) drop-shadow(0 0 4px #00ff88);
+  filter: drop-shadow(0 0 6px #00ff88);
+  will-change: transform;
 }
 
 .enemy {
@@ -69,13 +72,15 @@ body {
   top: -200px;
   z-index: 0;
   animation: enemyFadeIn 0.3s ease-out;
+  will-change: transform;
 }
 
 .bulletEnemis {
   position: absolute;
   width: 5px;
   left: 20px;
-  filter: drop-shadow(0 0 8px #ff4444) drop-shadow(0 0 4px #ff4444);
+  filter: drop-shadow(0 0 6px #ff4444);
+  will-change: transform;
 }
 
 .game_menu,
@@ -406,7 +411,6 @@ p {
   padding: 8px 16px;
   background: rgba(0, 0, 0, 0.65);
   border-bottom: 1px solid rgba(0, 200, 255, 0.25);
-  backdrop-filter: blur(6px);
   flex-wrap: wrap;
   gap: 8px;
   z-index: 1;
