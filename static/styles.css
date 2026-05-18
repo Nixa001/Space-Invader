@@ -87,7 +87,7 @@ body {
   height: 100vh;
   background: #0000004b;
   margin: auto;
-  z-index: 2;
+  z-index: 200;
 }
 
 .game_menu h1 {

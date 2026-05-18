@@ -1,4 +1,5 @@
 import { Entity } from "../../utils/entity/entity.js";
+import { isMobile } from '../../utils/device/isMobile.js';
 
 let myPlayer = "/assets/player/playerC.gif";
 
@@ -16,7 +17,7 @@ export class Players extends Entity {
     this.el.style.position = "absolute";
     if (this.el) {
       this.setX(window.innerWidth / 2);
-      this.setY(window.innerHeight - 200);
+      this.setY(window.innerHeight - (isMobile() ? 300 : 200));
       this.SPEED = 9;
     }
   }
@@ -43,15 +44,16 @@ export class Players extends Entity {
   }
 
   moveDown(elem) {
+    const bottomMargin = isMobile() ? 190 : 0;
     if (
       this.y + this.SPEED <
-      elem.getBoundingClientRect().height - this.el.height - this.SPEED && setting.canMove
+      elem.getBoundingClientRect().height - this.el.height - this.SPEED - bottomMargin && setting.canMove
     ) {
       this.setY(this.y + this.SPEED);
     }
   }
   resetPosition() {
     this.setX(window.innerWidth / 2);
-    this.setY(window.innerHeight - 200);
+    this.setY(window.innerHeight - (isMobile() ? 300 : 200));
   }
 }
