@@ -2,7 +2,8 @@ import { gameState } from "./variables.js";
 
 export class Scores {
   constructor() {
-    let scoreDiv = document.querySelector(".scores");
-    scoreDiv.innerText = "Scores: " + gameState.scores;
+    const scoreDiv = document.querySelector(".scores");
+    if (!scoreDiv) return;
+    scoreDiv.textContent = gameState.scores;
   }
 }
