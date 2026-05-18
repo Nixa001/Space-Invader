@@ -15,6 +15,8 @@ import { gameState } from "./utils/stats/variables.js";
 import { Lives } from "./utils/stats/lives.js";
 import { Scores } from "./utils/stats/scores.js";
 import { MobileControls } from "./views/mobile-controls.js";
+import { Explosion } from "./views/effects/explosion.js";
+import { FloatingScore } from "./views/effects/floatingScore.js";
 
 // ------------------------------------VARIABLES --------------------------------
 export let minutes = 0;
@@ -117,6 +119,8 @@ function startGame() {
   player = new Players(elem);
 
   const removeEnemy = (enemy) => {
+    new Explosion(enemy.x, enemy.y, elem);
+    new FloatingScore(enemy.x, enemy.y, elem);
     enemys.splice(enemys.indexOf(enemy), 1);
     enemy.remove();
   };
