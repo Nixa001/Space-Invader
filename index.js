@@ -199,7 +199,7 @@ function startGame() {
         return new Promise((resolve) => {
           setTimeout(() => {
             if (enemys.includes(enemy)) {
-              createBullet(enemy.x, enemy.y - 50, elem, bulletEnemis, sonEnmys, enemyBullet, "bulletEnemis");
+              createBullet(enemy.x, enemy.y - 150, elem, bulletEnemis, sonEnmys, enemyBullet, "bulletEnemis");
             }
             resolve();
           }, 2000);
