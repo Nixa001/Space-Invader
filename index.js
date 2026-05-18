@@ -14,6 +14,7 @@ import { LoseMenu } from "./views/menu/loseMenu.js";
 import { gameState } from "./utils/stats/variables.js";
 import { Lives } from "./utils/stats/lives.js";
 import { Scores } from "./utils/stats/scores.js";
+import { MobileControls } from "./views/mobile-controls.js";
 
 // ------------------------------------VARIABLES --------------------------------
 export let minutes = 0;
@@ -41,7 +42,6 @@ const sonEnmys = "/assets/audio/Autres/sounds_shoot.wav";
 const imageEnemiFire = "/assets/enemy/enemy-boss-3.png";
 const imageEnmie = "/assets/enemy/Enemy-2.png";
 let counterShooter = 0;
-
 // ------------------------------------FIN VARIABLES --------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
   displayLose("none");
 });
 
-// Function to display or hide the menu
 function displayMenu(displayStyle) {
   const menu = document.querySelector(".game_menu");
   menu.style.display = displayStyle;
@@ -62,24 +61,23 @@ function displayHome() {
 }
 function displayPause(displayStyle) {
   const pause = document.querySelector(".pause_menu");
-  if (pause) {
-    pause.style.display = displayStyle;
-  }
+  if (pause) pause.style.display = displayStyle;
 }
 function displayLose(displayStyle) {
   const pause = document.querySelector(".lose_menu");
-  if (pause) {
-    pause.style.display = displayStyle;
-  }
+  if (pause) pause.style.display = displayStyle;
 }
+
+function togglePause() {
+  gamePaused = !gamePaused;
+  displayPause(gamePaused ? "none" : "flex");
+}
+
 const keydownHandler = (event) => {
-  if (event.key === "Escape") {
-    gamePaused = !gamePaused;
-    displayPause(gamePaused ? "none" : "flex");
-  }
+  if (event.key === "Escape") togglePause();
 };
+
 export function lose() {
-  // resetGame();
   gamePaused = !gamePaused;
   setting.canMove = true;
   document.removeEventListener("keydown", keydownHandler);
@@ -92,11 +90,9 @@ export function lose() {
 }
 
 function continueGame() {
-  gamePaused = !gamePaused;
-  displayPause(gamePaused ? "none" : "flex");
+  togglePause();
 }
 
-// Fonction pour obtenir la balle qui entre en collision avec l'ennemi
 export const getEnemies = (enemy) => {
   for (const bullet of bullets) {
     if (collision(enemy, bullet)) {
@@ -114,10 +110,12 @@ export const getEnemies = (enemy) => {
 function pauses() {
   document.addEventListener("keydown", keydownHandler);
 }
+
 function startGame() {
   displayMenu("none");
   pauses();
   player = new Players(elem);
+
   const removeEnemy = (enemy) => {
     enemys.splice(enemys.indexOf(enemy), 1);
     enemy.remove();
@@ -128,7 +126,6 @@ function startGame() {
     bullet.remove();
   };
 
-  // Initialisation des constantes
   const minEnemyShootRandom = 1;
   const maxEnemyShootRandom = 5;
   const minEnemy = 1;
@@ -139,6 +136,24 @@ function startGame() {
   function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+  const keys = {
+    ArrowLeft: false,
+    ArrowRight: false,
+    ArrowUp: false,
+    ArrowDown: false,
+    " ": false,
+  };
+
+  // Mobile controls — binds touch events to the same keys object
+  new MobileControls(keys, togglePause);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key in keys) keys[event.key] = true;
+  });
+  document.addEventListener("keyup", (event) => {
+    if (event.key in keys) keys[event.key] = false;
+  });
 
   function callEnemy(tabEnemis) {
     counterShooter++;
@@ -152,13 +167,7 @@ function startGame() {
       let enemy;
       if (counterShooter % enemyShootRandom === 0) {
         enemy = new Enemy(
-          j * 60,
-          j * 60,
-          elem,
-          getEnemies,
-          removeEnemy,
-          removeBullet,
-          imageEnemiFire
+          j * 60, j * 60, elem, getEnemies, removeEnemy, removeBullet, imageEnemiFire
         );
         if (maxEnemy <= 4 && counterShooter >= level) {
           maxEnemy++;
@@ -166,21 +175,11 @@ function startGame() {
         }
         enemy.CanShoot = true;
         tabEnemis.push(enemy);
-
-        if (enemy) {
-          shootEnemies();
-        }
+        if (enemy) shootEnemies();
       } else {
         enemy = new Enemy(
-          j * 60,
-          j * 60,
-          elem,
-          getEnemies,
-          removeEnemy,
-          removeBullet,
-          imageEnmie
+          j * 60, j * 60, elem, getEnemies, removeEnemy, removeBullet, imageEnmie
         );
-
         tabEnemis.push(enemy);
       }
     }
@@ -189,60 +188,24 @@ function startGame() {
   let interval = true;
   function shootEnemies() {
     const enemiesToShoot = enemys.filter((enemy) => enemy.CanShoot);
-
     if (enemiesToShoot.length > 0 && interval) {
       interval = false;
-
       const shootingPromises = enemiesToShoot.map((enemy) => {
         return new Promise((resolve) => {
           setTimeout(() => {
-            // Check if the enemy is still alive before shooting
             if (enemys.includes(enemy)) {
-              createBullet(
-                enemy.x,
-                enemy.y - 50,
-                elem,
-                bulletEnemis,
-                sonEnmys,
-                enemyBullet,
-                "bulletEnemis"
-              );
+              createBullet(enemy.x, enemy.y - 50, elem, bulletEnemis, sonEnmys, enemyBullet, "bulletEnemis");
             }
             resolve();
           }, 2000);
         });
       });
-
-      Promise.all(shootingPromises).then(() => {
-        interval = true;
-      });
+      Promise.all(shootingPromises).then(() => { interval = true; });
     }
-
     enemisBulletFire(bulletEnemis);
   }
 
-  // -----------------------------------------------
-  const keys = {
-    ArrowLeft: false,
-    ArrowRight: false,
-    ArrowUp: false,
-    ArrowDown: false,
-    Space: false,
-  };
-
-  document.addEventListener("keydown", (event) => {
-    keys[event.key] = true;
-  });
-
-  document.addEventListener("keyup", (event) => {
-    keys[event.key] = false;
-  });
-
   let timeGame = 0;
-  /**
-   * La fonction « animer » met à jour les ennemis, déplace le joueur et demande des images d'animation
-   * pour créer une boucle d'animation.
-   */
   let k = 0;
   function animate() {
     if (IsLose) {
@@ -256,24 +219,17 @@ function startGame() {
       updateEnemies(enemys, bulletEnemis, player, bullets, y);
       move(player, keys, elem, player.x, player.y, bullets, audio);
       shootEnemies();
-      // bulletEnemys();
       if (timeGame === 60) {
         callEnemy(enemys);
         runtime();
         timeGame = 0;
       }
     }
-
     requestAnimationFrame(animate);
   }
   animate();
 }
 
-/**
- * La fonction `resetGame` réinitialise le jeu en supprimant tous les ennemis et balles, en
- * réinitialisant la position du joueur, en mettant à jour l'image du joueur, en réinitialisant les
- * variables d'état du jeu et en mettant à jour l'affichage des vies et des scores.
- */
 export function resetGame() {
   pauses();
   displayLose("none");
