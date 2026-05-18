@@ -224,7 +224,7 @@ function startGame() {
       updateEnemies(enemys, bulletEnemis, player, bullets, y);
       move(player, keys, elem, player.x, player.y, bullets, audio);
       shootEnemies();
-      if (timeGame === 60) {
+      if (timeGame === 120) {
         callEnemy(enemys);
         runtime();
         timeGame = 0;
