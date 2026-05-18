@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nova+Square&display=swap");
+@import url("https://fonts.google.com/css2?family=Nova+Square&display=swap");
 
 @font-face {
   font-family: "Zero";
@@ -45,18 +45,20 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  gap: 100;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 8px;
 }
 
 .game-container .list-group li {
   list-style-type: none;
+  font-size: clamp(12px, 2.5vw, 22px);
 }
 
 .bullet {
   position: absolute;
   left: 32px;
   width: 7px;
-  /* height: 100px; */
 }
 
 .enemy {
@@ -65,7 +67,6 @@ body {
   position: absolute;
   top: -200px;
   z-index: 0;
-  /* background-color: red; */
 }
 
 .bulletEnemis {
@@ -77,7 +78,6 @@ body {
 .game_menu,
 .pause_menu,
 .lose_menu {
-  /* font-family: "Rune", sans-serif; */
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -92,42 +92,41 @@ body {
 
 .game_menu h1 {
   font-family: "Zero";
-  font-size: 140px;
+  font-size: clamp(2.5rem, 10vw, 8.75rem);
   color: #fff;
+  text-align: center;
 }
 
 .game_menu h2,
 .pause_menu h2,
 .lose_menu h2 {
   font-family: "Zero";
-  font-size: 100px;
+  font-size: clamp(1.5rem, 7vw, 6.25rem);
   color: #fff;
 }
 
 h3 {
-  /* font-family: "Zero"; */
-  font-size: 50px;
+  font-size: clamp(1rem, 3.5vw, 3.125rem);
 }
 
 .lose_menu h3 {
-  /* font-family: 'Rune'; */
-  font-size: 40px;
+  font-size: clamp(1rem, 3vw, 2.5rem);
 }
 
 ul {
   color: rgb(172, 172, 172);
-  font-size: 35px;
-  margin-top: 30px;
+  font-size: clamp(14px, 2.5vw, 35px);
+  margin-top: 20px;
   z-index: 1;
 }
 
 button {
-  width: 200px;
-  min-height: 50px;
+  width: clamp(120px, 40vw, 200px);
+  min-height: 48px;
   background-color: white;
-  margin: 20px;
+  margin: 12px;
   position: relative;
-  font-size: 30px;
+  font-size: clamp(14px, 2.5vw, 30px);
   letter-spacing: 1px;
   font-weight: 600;
   text-transform: uppercase;
@@ -147,7 +146,6 @@ button:after {
   width: 0;
   height: 2px;
   background-color: #000;
-  /* background-color: #44d8a4; */
   transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
 }
 
@@ -168,21 +166,20 @@ button:hover:after {
 }
 
 button:hover {
-  font-size: 25px;
+  font-size: clamp(12px, 2vw, 25px);
 }
 
 p {
-  /* font-family: "Zero"; */
-  font-size: 25px;
+  font-size: clamp(13px, 2vw, 25px);
   font-weight: bolder;
 }
 
 .eschap {
-  width: 40px;
+  width: clamp(24px, 4vw, 40px);
 }
 
 .touches {
-  width: 60px;
+  width: clamp(36px, 6vw, 60px);
 }
 
 .divEsc {
@@ -190,4 +187,114 @@ p {
   align-items: center;
   justify-content: center;
   column-gap: 20px;
+  margin: 4px 0;
+}
+
+/* ── Touch hint shown on mobile in the menu ── */
+.touch-hint {
+  color: rgb(200, 200, 200);
+  font-size: clamp(13px, 2.5vw, 22px);
+  text-align: center;
+  margin-top: 16px;
+  padding: 0 16px;
+  line-height: 1.8;
+}
+
+/* ── Mobile controls overlay ── */
+.mobile-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16px 24px;
+  box-sizing: border-box;
+}
+
+/* ── Joystick ── */
+.joystick {
+  pointer-events: all;
+  display: grid;
+  grid-template-columns: repeat(3, 52px);
+  grid-template-rows: repeat(3, 52px);
+  gap: 4px;
+}
+
+.joystick-btn {
+  background: rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s;
+}
+
+.joystick-btn:active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.joystick-empty {
+  background: transparent;
+  border: none;
+  pointer-events: none;
+}
+
+/* ── Fire button ── */
+.fire-btn {
+  pointer-events: all;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(220, 50, 50, 0.55);
+  border: 3px solid rgba(255, 100, 100, 0.75);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Nova Square", sans-serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(220, 50, 50, 0.4);
+  transition: background 0.1s;
+}
+
+.fire-btn:active {
+  background: rgba(255, 70, 70, 0.8);
+}
+
+/* ── In-game pause button (mobile only) ── */
+.pause-btn-mobile {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 101;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  font-family: sans-serif;
 }
