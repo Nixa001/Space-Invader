@@ -29,7 +29,7 @@ export function move(player, keys, elem, x, y, bullets, audio) {
     setTimeout(() => {
       interval = true;
       audio.remove(sonPlayers);
-    }, 150);
+    }, 500);
   }
 
   // Mettez à jour les balles existantes
