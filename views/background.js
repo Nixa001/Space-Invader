@@ -1,59 +1,61 @@
 import { gameState } from "../utils/stats/variables.js";
-import { minutes } from "../index.js";
-const navBar = ["Pause", "Times: ", "Scores", "Lives"];
-/* La classe Background crée un conteneur de jeu avec une liste d'éléments et leurs nombres
-correspondants. */
+
 export class Background {
-  constructor(Callback) {
+  constructor() {
     this.element = document.createElement("div");
     this.element.className = "game-container";
     this.element.id = "gameContainer";
-    this.ul = document.createElement("ul");
-    this.ul.className = "list-group";
-    for (var i = 1; i < navBar.length; i++) {
-      this.li = document.createElement("li");
-      this.li.className = navBar[i].toLowerCase();
-      this.li.innerText = navBar[i];
-      this.li.id = navBar[i].toLowerCase();
-      if (i > 1 && i != 3) {
-        this.span = document.createElement("span");
-        this.span.innerText = ": 0";
-        this.span.id = "id-" + navBar[i];
-        this.span.className = "name-" + navBar[i].toLowerCase();
-        this.li.appendChild(this.span);
-      }
-      if (i === 1) {
-        this.span = document.createElement("span");
-        this.span.innerText = gameState.time;
-        this.span.id = "id-" + navBar[i];
-        this.span.className = "class_" + 'Times';
-        // creation de l'element pour les minutes
-        this.min = document.createElement("span");
-        this.min.innerText = minutes;
-        this.min.className = "min";
-        this.li.appendChild(this.min);
-        //----------------------------------
-        this.p = document.createElement("span");
-        this.p.innerText = " : ";
-        this.p.className = "min";
-        this.li.appendChild(this.p);
-        //----------------------------------
-        this.li.appendChild(this.span);
-      }
-      if (i === 3) {
-        this.span = document.createElement("span");
-        this.span.innerText = ": " + 3;
-        this.span.id = "id-" + navBar[i];
-        this.li.appendChild(this.span);
-      }
-      this.ul.appendChild(this.li);
-    }
-    this.element.appendChild(this.ul);
-    this.hitFlash = document.createElement('div');
-    this.hitFlash.className = 'hit-flash';
-    this.hitFlash.id = 'hit-flash';
+
+    const hud = document.createElement("div");
+    hud.className = "hud";
+
+    // Time panel
+    const timeItem = document.createElement("div");
+    timeItem.className = "hud-item hud-time";
+    const timeIcon = document.createElement("span");
+    timeIcon.className = "hud-icon";
+    timeIcon.textContent = "⏱";
+    const minSpan = document.createElement("span");
+    minSpan.className = "min";
+    minSpan.textContent = "00";
+    const sep = document.createElement("span");
+    sep.className = "hud-sep";
+    sep.textContent = ":";
+    const secSpan = document.createElement("span");
+    secSpan.className = "class_Times";
+    secSpan.textContent = "00";
+    timeItem.append(timeIcon, minSpan, sep, secSpan);
+
+    // Score panel
+    const scoreItem = document.createElement("div");
+    scoreItem.className = "hud-item hud-score";
+    const scoreIcon = document.createElement("span");
+    scoreIcon.className = "hud-icon";
+    scoreIcon.textContent = "★";
+    const scoreVal = document.createElement("span");
+    scoreVal.className = "scores";
+    scoreVal.textContent = "0";
+    scoreItem.append(scoreIcon, scoreVal);
+
+    // Lives panel
+    const livesItem = document.createElement("div");
+    livesItem.className = "hud-item hud-lives";
+    const livesIcon = document.createElement("span");
+    livesIcon.className = "hud-icon";
+    livesIcon.textContent = "VIE";
+    const livesVal = document.createElement("span");
+    livesVal.className = "lives";
+    livesVal.textContent = "❤❤❤";
+    livesItem.append(livesIcon, livesVal);
+
+    hud.append(timeItem, scoreItem, livesItem);
+    this.element.appendChild(hud);
+
+    this.hitFlash = document.createElement("div");
+    this.hitFlash.className = "hit-flash";
+    this.hitFlash.id = "hit-flash";
     this.element.appendChild(this.hitFlash);
+
     document.body.appendChild(this.element);
-    // new Players(this.element);
   }
 }
