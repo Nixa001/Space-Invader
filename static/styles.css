@@ -59,6 +59,7 @@ body {
   position: absolute;
   left: 32px;
   width: 7px;
+  filter: drop-shadow(0 0 8px #00ff88) drop-shadow(0 0 4px #00ff88);
 }
 
 .enemy {
@@ -67,12 +68,14 @@ body {
   position: absolute;
   top: -200px;
   z-index: 0;
+  animation: enemyFadeIn 0.3s ease-out;
 }
 
 .bulletEnemis {
   position: absolute;
   width: 5px;
   left: 20px;
+  filter: drop-shadow(0 0 8px #ff4444) drop-shadow(0 0 4px #ff4444);
 }
 
 .game_menu,
@@ -95,6 +98,7 @@ body {
   font-size: clamp(2.5rem, 10vw, 8.75rem);
   color: #fff;
   text-align: center;
+  animation: neonPulse 2s ease-in-out infinite;
 }
 
 .game_menu h2,
@@ -297,4 +301,99 @@ p {
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
   font-family: sans-serif;
+}
+
+/* ── Enemy fade-in ── */
+@keyframes enemyFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Explosion ── */
+@keyframes explode {
+  0%   { transform: scale(0.3); opacity: 1; }
+  70%  { transform: scale(1.5); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.explosion {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #ffdd00 30%, #ff6600 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+  animation: explode 0.4s ease-out forwards;
+}
+
+/* ── Floating score ── */
+@keyframes floatUp {
+  0%   { transform: translateY(0);     opacity: 1; }
+  100% { transform: translateY(-60px); opacity: 0; }
+}
+
+.floating-score {
+  position: absolute;
+  color: #ffdd00;
+  font-family: "Nova Square", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 11;
+  text-shadow: 0 0 8px #ffdd00;
+  animation: floatUp 0.8s ease-out forwards;
+}
+
+/* ── Screen shake ── */
+@keyframes shake {
+  0%   { transform: translate(0, 0); }
+  15%  { transform: translate(-6px, 3px); }
+  30%  { transform: translate(6px, -3px); }
+  45%  { transform: translate(-4px, 2px); }
+  60%  { transform: translate(4px, -2px); }
+  75%  { transform: translate(-2px, 1px); }
+  90%  { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.game-container.shake {
+  animation: shake 0.3s ease-out;
+}
+
+/* ── Hit flash overlay ── */
+@keyframes hitFlash {
+  0%   { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+
+.hit-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+}
+
+.hit-flash.active {
+  animation: hitFlash 0.4s ease-out forwards;
+}
+
+/* ── Menu title neon pulse ── */
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 40px #00cfff,
+      0 0 80px #00cfff;
+  }
+  50% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px #00cfff,
+      0 0 40px #00cfff;
+  }
 }
